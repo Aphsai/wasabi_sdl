@@ -1,18 +1,32 @@
 #pragma once
-#include "entity.hpp"
-#include "texture-manager.hpp"
-#include "ecs.hpp"
+#include <iostream>
+#include "defs.hpp"
+#include "input-component.hpp"
+#include "graphics-component.hpp"
+#include "physics-component.hpp"
 
 class Sushi : public Entity {
-	Sushi(SDL_Renderer *renderer, const char* path) {
-		components.push_back(new InputComponent());
-		//texture = TextureManager::loadTexture(I
-	}
-
-	void update() {
-		for (auto c : components) {
-			c->execute(this);
+	public:
+		Sushi() {
+			components.push_back(new InputComponent());
+			components.push_back(new GraphicsComponent(SDL_Rect { 19 * TILESHEET_SIZE, 8 * TILESHEET_SIZE, TILESHEET_SIZE, TILESHEET_SIZE }));
+			components.push_back(new PhysicsComponent());
 		}
-	}
+
+		void update() {
+			for (auto &c : components) {
+				c->update(this);
+			}
+		}
+
+		void draw() {
+			for (auto &c : components) {
+				c->draw(this);
+			}
+		}
+
+		void handleA() {
+			std::cout << "Handling A" << std::endl;
+		}
 
 };

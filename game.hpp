@@ -1,7 +1,5 @@
 #pragma once
 #include <SDL2/SDL.h>
-#include "defs.hpp"
-#include "texture-manager.hpp"
 
 class Game {
 	public: 
@@ -9,6 +7,7 @@ class Game {
 		Game();
 		~Game();
 		static SDL_Event event;
+		static SDL_Renderer *renderer;
 
 	private:
 		void update();
@@ -16,7 +15,6 @@ class Game {
 		void clearScreen();
 
 		SDL_Window *window;
-		SDL_Renderer *renderer;
 		SDL_Rect screen;
 
 };

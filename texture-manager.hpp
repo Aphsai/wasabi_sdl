@@ -1,9 +1,12 @@
 #pragma once
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_image.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 class TextureManager {
 	public: 
-		static SDL_Texture *loadTexture(const char*, SDL_Renderer*);
-		static void draw(SDL_Texture*, SDL_Rect, SDL_Rect, SDL_Renderer*);
+		static SDL_Texture* tex;
+		static void loadTexture(const char*);
+		static void draw(SDL_Rect, SDL_Rect, SDL_RendererFlip flip);
+	private:
+		SDL_Renderer *renderer;
 };

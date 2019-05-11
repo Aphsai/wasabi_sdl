@@ -1,20 +1,19 @@
 #include "texture-manager.hpp"
+#include "game.hpp"
 
+SDL_Texture* TextureManager::tex = nullptr;
 
-SDL_Texture* TextureManager::loadTexture(const char* path, SDL_Renderer *renderer) {
+void TextureManager::loadTexture(const char* path) {
 	IMG_Init(IMG_INIT_PNG);
-	SDL_Texture *tex = NULL;
 	SDL_Surface *loadedSurface = IMG_Load(path);
 
-	tex = SDL_CreateTextureFromSurface(renderer, loadedSurface);
+	TextureManager::tex = SDL_CreateTextureFromSurface(Game::renderer, loadedSurface);
 
 
 	SDL_FreeSurface(loadedSurface);
 	IMG_Quit();
-
-	return tex;
 }
 
-void TextureManager::draw(SDL_Texture *tex, SDL_Rect src, SDL_Rect dest, SDL_Renderer *renderer) {
-	SDL_RenderCopy(renderer, tex, &src, &dest);
+void TextureManager::draw(SDL_Rect src, SDL_Rect dest, SDL_RendererFlip flip) {
+	SDL_RenderCopyEx(Game::renderer, TextureManager::tex, &src, &dest, NULL, NULL, flip);
 }

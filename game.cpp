@@ -1,26 +1,38 @@
 #include "game.hpp"
+#include "defs.hpp"
+#include "ecs.hpp"
+#include "texture-manager.hpp"
+#include "sushi.hpp"
+
+SDL_Renderer* Game::renderer = nullptr;
+SDL_Event Game::event;
+Entity* sushi = nullptr;
 
 Game::Game() {
 	window = SDL_CreateWindow("Wasabi", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	Game::renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	screen = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+	TextureManager::loadTexture("assets/Tilesheet/chopped.png");
+	sushi = new Sushi();
 }
 
 Game::~Game() {
-	SDL_DestroyRenderer(renderer);
+	SDL_DestroyRenderer(Game::renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 }
 
-void Game::update() {}
+void Game::update() {
+	sushi->update();
+}
 void Game::draw() {
-	SDL_Texture *testTexture = TextureManager::loadTexture("assets/Tilesheet/colored.png", renderer);
 	clearScreen();
-	SDL_RenderPresent(renderer);
+	sushi->draw();
+	SDL_RenderPresent(Game::renderer);
 }
 void Game::clearScreen() {
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_SetRenderDrawColor(Game::renderer, 0, 0, 0, 255);
+	SDL_RenderClear(Game::renderer);
 }
 
 void Game::gameLoop() {
