@@ -1,4 +1,5 @@
 #include "game.hpp"
+#include "map.hpp"
 #include "defs.hpp"
 #include "ecs.hpp"
 #include "texture-manager.hpp"
@@ -24,6 +25,7 @@ Game::Game() {
 	std::cout << "Renderer initialized" << std::endl;
 	screen = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 	TextureManager::loadTexture("assets/Tilesheet/chopped.png");
+	Map::loadMap("assets/map.map");
 	sushi = new Sushi();
 }
 
