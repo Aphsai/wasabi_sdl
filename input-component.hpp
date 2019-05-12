@@ -8,38 +8,46 @@ class InputComponent : public Component {
 	public:
 		float LATERAL_SPEED = 5;
 		float LONGITUDINAL_SPEED = 5;
+		bool moving_forward = false, moving_backward = false, jumping = false, looking_down = false;
 		void update(Entity* entity) {
 			if (Game::event.type == SDL_KEYDOWN) {
 				switch (Game::event.key.keysym.sym) {
 					case SDLK_a: 
-						entity->xvel = -LATERAL_SPEED;
+						moving_backward = true;
 						break;
 					case SDLK_d:
-						entity->xvel = LATERAL_SPEED;
+						moving_forward = true;
 						break;
 					case SDLK_w:
-						entity->yvel = -LONGITUDINAL_SPEED;
+						jumping = true;
 						break;
 					case SDLK_s:
-						entity->yvel = LONGITUDINAL_SPEED;
+						looking_down = true;
 						break;
 				} 
 			}
 			if (Game::event.type == SDL_KEYUP) {
 				switch (Game::event.key.keysym.sym) {
 					case SDLK_a:
-						entity->xvel = 0;
+						moving_backward = false;
 						break;
 					case SDLK_d:
-						entity->xvel = 0;
+						moving_forward = false;
 						break;
 					case SDLK_w:
-						entity->yvel = 0;
+						jumping = false;
 						break;
 					case SDLK_s:
-						entity->yvel = 0;
+						looking_down = false;
 						break;
 				}
 			}
+
+			if (moving_forward) entity->xvel = LATERAL_SPEED;
+			else if (moving_backward) entity->xvel = -LATERAL_SPEED;
+			else entity->xvel = 0;
+			if (jumping) entity->yvel = -LONGITUDINAL_SPEED;
+			else if (looking_down) entity->yvel = LONGITUDINAL_SPEED;
+			else entity->yvel = 0;
 		}
 };

@@ -2,6 +2,9 @@
 #include <SDL2/SDL.h>
 #include <vector>
 
+#define MAX_COMPONENTS 32
+enum { INPUT_COMPONENT, GRAPHICS_COMPONENT, PHYSICS_COMPONENT };
+
 class Component;
 class Entity;
 
@@ -10,7 +13,6 @@ class Component {
 		virtual void update(Entity*) {}
 		virtual void draw(Entity*) {}
 		virtual void init(Entity*) {}
-		int id;
 };
 
 class Entity {

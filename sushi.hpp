@@ -7,26 +7,31 @@
 
 class Sushi : public Entity {
 	public:
+		const int SPRITESHEET_LOCATION_X = 18;
+		const int SPRITESHEET_LOCATION_Y = 9;
+
 		Sushi() {
-			components.push_back(new InputComponent());
-			components.push_back(new GraphicsComponent(SDL_Rect { 19 * TILESHEET_SIZE, 8 * TILESHEET_SIZE, TILESHEET_SIZE, TILESHEET_SIZE }));
-			components.push_back(new PhysicsComponent());
+			xpos = SCREEN_WIDTH / 2;
+			ypos = SCREEN_HEIGHT / 2;
+			components = std::vector<Component*>(MAX_COMPONENTS, nullptr);
+			components[INPUT_COMPONENT] = new InputComponent();
+			components[GRAPHICS_COMPONENT] = new GraphicsComponent(SDL_Rect { SPRITESHEET_LOCATION_X * TILESHEET_SIZE, SPRITESHEET_LOCATION_Y * TILESHEET_SIZE, TILESHEET_SIZE, TILESHEET_SIZE });
+			components[PHYSICS_COMPONENT] = new PhysicsComponent();
 		}
 
 		void update() {
 			for (auto &c : components) {
-				c->update(this);
+				if (c != nullptr) {
+					c->update(this);
+				}
 			}
+		}
+
+		~Sushi() {
+			components.clear();
 		}
 
 		void draw() {
-			for (auto &c : components) {
-				c->draw(this);
-			}
+			components[GRAPHICS_COMPONENT]->draw(this);
 		}
-
-		void handleA() {
-			std::cout << "Handling A" << std::endl;
-		}
-
 };
