@@ -22,6 +22,23 @@ class Entity {
 		virtual void update() {}
 		virtual void draw() {}
 
+		template<typename T> T& getComponent(const int c) {
+			auto ptr(components[c]);
+			return *static_cast<T*>(ptr);
+		}
+
+		template<typename T, typename ... Args> void addComponent(const int c, Args ... TArgs) {
+			if (components[c] == nullptr) {
+				components[c] = new T(TArgs...);
+			}
+		}
+
+		template<typename T> void deleteComponent(const int c) {
+			if (components[c] != nullptr) {
+				delete components[c];
+				components[c] = nullptr;
+			}
+		}
+
 		float xpos, ypos;
-		float xvel, yvel;
 };

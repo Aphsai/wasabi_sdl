@@ -1,14 +1,22 @@
 #pragma once
 #include <iostream>
 #include <SDL2/SDL.h>
-#include "ecs.hpp"
+#include "defs.hpp"
+#include "components.hpp"
 #include "game.hpp"
 
 class InputComponent : public Component {
 	public:
-		float LATERAL_SPEED = 5;
-		float LONGITUDINAL_SPEED = 5;
-		bool moving_forward = false, moving_backward = false, jumping = false, looking_down = false;
+		PhysicsComponent* pc;
+		GraphicsComponent* gc;
+
+		void init(Entity* entity) {
+			pc = &entity->getComponent<PhysicsComponent>(PHYSICS_COMPONENT);
+			gc = &entity->getComponent<GraphicsComponent>(GRAPHICS_COMPONENT);
+		}
+
+		bool moving_forward = false, moving_backward = false, jumping = false, looking_down = false, inJump = false;
+
 		void update(Entity* entity) {
 			if (Game::event.type == SDL_KEYDOWN) {
 				switch (Game::event.key.keysym.sym) {
@@ -43,11 +51,31 @@ class InputComponent : public Component {
 				}
 			}
 
-			if (moving_forward) entity->xvel = LATERAL_SPEED;
-			else if (moving_backward) entity->xvel = -LATERAL_SPEED;
-			else entity->xvel = 0;
-			if (jumping) entity->yvel = -LONGITUDINAL_SPEED;
-			else if (looking_down) entity->yvel = LONGITUDINAL_SPEED;
-			else entity->yvel = 0;
+			if (entity->ypos > SCREEN_HEIGHT / 2) {
+				entity->ypos = SCREEN_HEIGHT / 2;
+				pc->yvel = 0;
+				inJump = false;
+			}
+			if (moving_forward) {
+				pc->xvel = LATERAL_SPEED;
+				gc->setAnimation(WALK);
+			}
+			else if (moving_backward) pc->xvel = -LATERAL_SPEED;
+			else {
+				gc->unsetAnimation();
+				pc->xvel = 0;
+			}
+			if (!inJump) {
+				if (jumping) {
+					pc->yvel = -LONGITUDINAL_SPEED;
+					inJump = true;
+				}
+				else if (looking_down) pc->yvel = LONGITUDINAL_SPEED;
+				else pc->yvel = 0;
+			}
+		
 		}
+	private:
+		const float LATERAL_SPEED = 5;
+		const float LONGITUDINAL_SPEED = 50;
 };

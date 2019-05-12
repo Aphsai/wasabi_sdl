@@ -1,14 +1,15 @@
 #pragma once
+#include <SDL2/SDL.h>
 
 struct Animation {
-	int index;
-	int frames;
-	int speed;
+	SDL_Rect src;
+	int index = 0;
+	int frames = 0;
+	int speed = 0;
 
-	Animation() {}
-	Animation(int i, int f, int s) {
-		index = i;
+	Animation(SDL_Rect r, int f, int s) {
 		frames = f;
 		speed = s;
+		src = r;
 	}
 };
