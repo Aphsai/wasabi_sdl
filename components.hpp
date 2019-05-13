@@ -2,3 +2,4 @@
 #include "input-component.hpp"
 #include "graphics-component.hpp"
 #include "physics-component.hpp"
+#include "collider-component.hpp"

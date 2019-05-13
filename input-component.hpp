@@ -36,7 +36,7 @@ class InputComponent : public Component {
 			}
 			if (Game::event.type == SDL_KEYUP) {
 				switch (Game::event.key.keysym.sym) {
-					case SDLK_a:
+					case SDLK_a: 
 						moving_backward = false;
 						break;
 					case SDLK_d:
@@ -54,11 +54,13 @@ class InputComponent : public Component {
 			if (entity->ypos > SCREEN_HEIGHT / 2) {
 				entity->ypos = SCREEN_HEIGHT / 2;
 				pc->yvel = 0;
+				gc->setAnimation(LAND);
 				inJump = false;
 			}
 			if (moving_forward) {
 				pc->xvel = LATERAL_SPEED;
-				gc->setAnimation(WALK);
+				if (!inJump)
+					gc->setAnimation(WALK);
 			}
 			else if (moving_backward) pc->xvel = -LATERAL_SPEED;
 			else {
@@ -68,9 +70,9 @@ class InputComponent : public Component {
 			if (!inJump) {
 				if (jumping) {
 					pc->yvel = -LONGITUDINAL_SPEED;
+					gc->setAnimation(JUMP);
 					inJump = true;
 				}
-				else if (looking_down) pc->yvel = LONGITUDINAL_SPEED;
 				else pc->yvel = 0;
 			}
 		

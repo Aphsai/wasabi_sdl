@@ -10,15 +10,17 @@
 class GraphicsComponent : public Component {
 	public: 
 		SDL_Rect src;
-		SDL_RendererFlip flip = SDL_FLIP_NONE;
+		SDL_RendererFlip flip;
 		std::vector<Animation*> animations;
 		std::unordered_map<const char*, Animation*> animation_map;
-		Animation* currentAnimation = nullptr;
+		Animation* currentAnimation;
 
 		int frameDelay = 0;
 
 		GraphicsComponent(SDL_Rect &r) {
 			src = r;
+			currentAnimation = nullptr;
+			flip = SDL_FLIP_NONE;
 		}
 
 		void draw(Entity* entity) override {

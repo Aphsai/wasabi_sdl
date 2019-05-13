@@ -11,5 +11,7 @@
 #define JUMP "JUMP"
 #define FLY "FLY"
 #define ATTACK "ATTACK"
+#define FALL "FALL"
+#define LAND "LAND"
 
 

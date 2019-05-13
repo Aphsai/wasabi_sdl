@@ -1,14 +1,16 @@
 #include "game.hpp"
 #include "map.hpp"
 #include "defs.hpp"
-#include "ecs.hpp"
+#include "components.hpp"
 #include "texture-manager.hpp"
 #include "sushi.hpp"
+#include "tile.hpp"
 
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 Entity* sushi = nullptr;
-
+Entity* ace = nullptr;
+Entity* two = nullptr;
 Game::Game() {
 	window = SDL_CreateWindow("Wasabi", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if (window == NULL) {
@@ -26,7 +28,9 @@ Game::Game() {
 	screen = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 	TextureManager::loadTexture("assets/Tilesheet/chopped.png");
 	Map::loadMap("assets/map.map");
-	sushi = new Sushi();
+	sushi = new Sushi(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+	ace = new Tile(20, 16, SCREEN_WIDTH / 3, SCREEN_HEIGHT / 2);
+	two = new Tile(21, 16, SCREEN_WIDTH / 3 * 2, SCREEN_HEIGHT / 2);
 }
 
 Game::~Game() {
@@ -38,12 +42,23 @@ Game::~Game() {
 
 void Game::update() {
 	sushi->update();
+	ace->update();
+	two->update();
+	checkCollision();
 }
 void Game::draw() {
 	clearScreen();
 	sushi->draw();
+	ace->draw();
+	two->draw();
 	SDL_RenderPresent(Game::renderer);
 }
+
+void Game::checkCollision() {
+	sushi->getComponent<ColliderComponent>(COLLIDER_COMPONENT).hasCollision(ace->getComponent<ColliderComponent>(COLLIDER_COMPONENT));
+	sushi->getComponent<ColliderComponent>(COLLIDER_COMPONENT).hasCollision(two->getComponent<ColliderComponent>(COLLIDER_COMPONENT));
+}
+
 void Game::clearScreen() {
 	SDL_RenderClear(Game::renderer);
 }

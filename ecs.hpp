@@ -3,7 +3,7 @@
 #include <vector>
 
 #define MAX_COMPONENTS 32
-enum { INPUT_COMPONENT, GRAPHICS_COMPONENT, PHYSICS_COMPONENT };
+enum { INPUT_COMPONENT, GRAPHICS_COMPONENT, PHYSICS_COMPONENT, COLLIDER_COMPONENT};
 
 class Component;
 class Entity;
@@ -17,8 +17,10 @@ class Component {
 
 class Entity {
 	public:
-		std::vector<Component*> components;
+		std::vector<Component*> components = std::vector<Component*>(MAX_COMPONENTS, nullptr);
 		bool active = true;
+		int tag = -1;
+		static int ENTITY_TAG_COUNTER;
 		virtual void update() {}
 		virtual void draw() {}
 
@@ -40,5 +42,36 @@ class Entity {
 			}
 		}
 
+		void updateComponents() {
+			for (auto &c : components) {
+				if (c != nullptr) {
+					c->update(this);
+				}
+			}
+		}
+
+		void initComponents() {
+			for (auto &c : components) {
+				if (c != nullptr) {
+					c->init(this);
+				}
+			}
+				
+		}
+
+		void drawComponents() {
+			for (auto &c : components) {
+				if (c != nullptr) {
+					c->draw(this);
+				}
+			}
+		}
+
+		void generateTag() {
+			tag = Entity::ENTITY_TAG_COUNTER++;	
+		}
+
 		float xpos, ypos;
 };
+
+int Entity::ENTITY_TAG_COUNTER = 0;

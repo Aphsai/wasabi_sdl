@@ -13,6 +13,7 @@ class Game {
 		void update();
 		void draw();
 		void clearScreen();
+		void checkCollision();
 
 		SDL_Window *window;
 		SDL_Rect screen;
