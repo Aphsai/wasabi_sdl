@@ -1,13 +1,16 @@
 #pragma once
 #include <SDL2/SDL.h>
 
+class EntityManager;
+
 class Game {
 	public: 
 		void gameLoop();
 		Game();
 		~Game();
 		static SDL_Event event;
-		static SDL_Renderer *renderer;
+		static SDL_Renderer* renderer;
+		static EntityManager* manager;
 
 	private:
 		void update();
@@ -17,5 +20,4 @@ class Game {
 
 		SDL_Window *window;
 		SDL_Rect screen;
-
 };

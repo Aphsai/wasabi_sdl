@@ -1,4 +1,6 @@
-OBJ = main.cpp game.hpp game.cpp defs.hpp texture-manager.hpp texture-manager.cpp ecs.hpp input-component.hpp sushi.hpp animation.hpp components.hpp map.hpp map.cpp tile.hpp collider-component.hpp
+OBJ = main.cpp game.hpp game.cpp defs.hpp texture-manager.hpp texture-manager.cpp sushi.hpp sushi.cpp animation.hpp map.hpp map.cpp tile.hpp tile.cpp entity-manager.hpp entity-manager.cpp
+
+COMPONENTS = collider-component.hpp collider-component.cpp input-component.hpp input-component.cpp ecs.hpp ecs.cpp graphics-component.hpp graphics-component.cpp components.hpp physics-component.hpp physics-component.cpp
 
 all : $(OBJ)
-	g++ $(OBJ) -w -lSDL2 -lSDL2_image -o wasabi
+	ccache g++ $(OBJ) $(COMPONENTS) -w -lSDL2 -lSDL2_image -o nirvana

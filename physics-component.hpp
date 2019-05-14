@@ -7,10 +7,6 @@ class PhysicsComponent : public Component {
 		const float TIMESTEP = 0.15;
 		float xvel = 0;
 		float yvel = 0;
-
-		void update(Entity* entity) {
-			entity->xpos += xvel;
-			entity->ypos += GRAVITY * GRAVITY * 0.5 * TIMESTEP * TIMESTEP + yvel * TIMESTEP;
-			yvel += GRAVITY * TIMESTEP;
-		}
+		PhysicsComponent();
+		void update(Entity*);
 };

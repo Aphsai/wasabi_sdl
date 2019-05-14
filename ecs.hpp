@@ -3,7 +3,8 @@
 #include <vector>
 
 #define MAX_COMPONENTS 32
-enum { INPUT_COMPONENT, GRAPHICS_COMPONENT, PHYSICS_COMPONENT, COLLIDER_COMPONENT};
+
+enum { INPUT_COMPONENT, GRAPHICS_COMPONENT, PHYSICS_COMPONENT, COLLIDER_COMPONENT };
 
 class Component;
 class Entity;
@@ -19,8 +20,9 @@ class Entity {
 	public:
 		std::vector<Component*> components = std::vector<Component*>(MAX_COMPONENTS, nullptr);
 		bool active = true;
-		int tag = -1;
-		static int ENTITY_TAG_COUNTER;
+		float xpos, ypos;
+		int tag;
+
 		virtual void update() {}
 		virtual void draw() {}
 
@@ -28,13 +30,13 @@ class Entity {
 			auto ptr(components[c]);
 			return *static_cast<T*>(ptr);
 		}
-
+		
 		template<typename T, typename ... Args> void addComponent(const int c, Args ... TArgs) {
 			if (components[c] == nullptr) {
 				components[c] = new T(TArgs...);
 			}
 		}
-
+		
 		template<typename T> void deleteComponent(const int c) {
 			if (components[c] != nullptr) {
 				delete components[c];
@@ -42,36 +44,20 @@ class Entity {
 			}
 		}
 
-		void updateComponents() {
-			for (auto &c : components) {
-				if (c != nullptr) {
-					c->update(this);
-				}
-			}
-		}
-
-		void initComponents() {
-			for (auto &c : components) {
-				if (c != nullptr) {
-					c->init(this);
-				}
-			}
-				
-		}
-
-		void drawComponents() {
-			for (auto &c : components) {
-				if (c != nullptr) {
-					c->draw(this);
-				}
-			}
-		}
-
-		void generateTag() {
-			tag = Entity::ENTITY_TAG_COUNTER++;	
-		}
-
-		float xpos, ypos;
+		void updateComponents();
+		void initComponents();
+		void drawComponents();
+		void generateTag();
 };
 
-int Entity::ENTITY_TAG_COUNTER = 0;
+namespace std
+{
+	template<>
+	struct hash<Entity>
+	{
+		size_t operator()(const Entity& k) const
+		{
+			return hash<int>()(k.tag);
+		}
+	};
+}
