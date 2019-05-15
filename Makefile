@@ -2,5 +2,39 @@ OBJ = main.cpp game.hpp game.cpp defs.hpp texture-manager.hpp texture-manager.cp
 
 COMPONENTS = collider-component.hpp collider-component.cpp input-component.hpp input-component.cpp ecs.hpp ecs.cpp graphics-component.hpp graphics-component.cpp components.hpp physics-component.hpp physics-component.cpp jumping-component.hpp jumping-component.cpp
 
-all : $(OBJ)
-	ccache g++ $(OBJ) $(COMPONENTS) -w -lSDL2 -lSDL2_image -o nirvana
+#yt.Gopa.o : pA.hpp$(CC) $(CPPFLAGS) -c pa.cpp``W
+PROG = nirvana
+CC = ccache g++
+CPPFLAGS = -w -lSDL2 -lSDL2_image 
+OBJS = main.o collider-component.o input-component.o ecs.o graphics-component.o  physics-component.o jumping-component.o tile.o entity-manager.o collision.o map.o sushi.o texture-manager.o defs.hpp components.hpp animation.hpp game.o 
+
+$(PROG) : $(OBJS)
+	$(CC) $(CPPFLAGS) -o $(PROG) $(OBJS)
+main.o :
+	$(CC) $(CPPFLAGS) -c main.cpp
+collider-component.o : collider-component.hpp
+	$(CC) $(CPPFLAGS) -c collider-component.cpp
+input-component.o : input-component.hpp
+	$(CC) $(CPPFLAGS) -c input-component.cpp
+ecs.o : ecs.hpp
+	$(CC) $(CPPFLAGS) -c ecs.cpp
+graphics-component.o : graphics-component.hpp
+	$(CC) $(CPPFLAGS) -c graphics-component.cpp
+physics-component.o : physics-component.hpp
+	$(CC) $(CPPFLAGS) -c physics-component.cpp
+jumping-component.o : jumping-component.hpp
+	$(CC) $(CPPFLAGS) -c jumping-component.cpp
+tile.o : tile.hpp
+	$(CC) $(CPPFLAGS) -c tile.cpp
+entity-manager.o : entity-manager.hpp
+	$(CC) $(CPPFLAGS) -c entity-manager.cpp
+collision.o : collision.hpp
+	$(CC) $(CPPFLAGS) -c collision.cpp
+map.o : map.hpp
+	$(CC) $(CPPFLAGS) -c map.cpp
+sushi.o : sushi.hpp
+	$(CC) $(CPPFLAGS) -c sushi.cpp
+texture-manager.o : texture-manager.hpp
+	$(CC) $(CPPFLAGS) -c texture-manager.cpp
+game.o : game.hpp
+	$(CC) $(CPPFLAGS) -c game.cpp
