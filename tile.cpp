@@ -1,3 +1,5 @@
+#include <iostream>
+#include "defs.hpp"
 #include "tile.hpp"
 
 Tile::Tile(int x, int y, int xp, int yp) {
@@ -12,8 +14,9 @@ Tile::Tile(int x, int y, int xp, int yp) {
 
 void Tile::init() {
 	std::cout << "Tile tag: " << tag << std::endl; 
+
 	addComponent<GraphicsComponent>(GRAPHICS_COMPONENT, SDL_Rect { sprite_x * TILESHEET_SIZE, sprite_y * TILESHEET_SIZE, TILESHEET_SIZE, TILESHEET_SIZE });
-	addComponent<ColliderComponent>(COLLIDER_COMPONENT, "Terrain");
+	addComponent<ColliderComponent>(COLLIDER_COMPONENT, 1);
 
 	initComponents();
 }

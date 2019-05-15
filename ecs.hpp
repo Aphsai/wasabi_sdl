@@ -4,7 +4,7 @@
 
 #define MAX_COMPONENTS 32
 
-enum { INPUT_COMPONENT, GRAPHICS_COMPONENT, PHYSICS_COMPONENT, COLLIDER_COMPONENT };
+enum { INPUT_COMPONENT, GRAPHICS_COMPONENT, PHYSICS_COMPONENT, COLLIDER_COMPONENT, JUMPING_COMPONENT };
 
 class Component;
 class Entity;
@@ -21,6 +21,7 @@ class Entity {
 		std::vector<Component*> components = std::vector<Component*>(MAX_COMPONENTS, nullptr);
 		bool active = true;
 		float xpos, ypos;
+		float p_xpos, p_ypos;
 		int tag;
 
 		virtual void update() {}

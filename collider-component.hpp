@@ -1,18 +1,19 @@
 #pragma once
+#include "ecs.hpp"
 #include <SDL2/SDL.h>
-#include <iostream>
-#include "components.hpp"
-#include "defs.hpp"
+
+class Collision;
 
 class ColliderComponent : public Component {
 	public:
+		static Collision c;
 		SDL_Rect collider;
 		int tag = 0;
-		const char* type;
+		int type;
 
-		ColliderComponent(const char*);
-		ColliderComponent(const char*, int w, int h);
+		ColliderComponent(int);
+		ColliderComponent(int, int w, int h);
 		void init(Entity*);
 		void update(Entity*);
-		void hasCollision(ColliderComponent);
+		void hasCollision(Entity*, Entity*);
 };

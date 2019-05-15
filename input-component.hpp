@@ -1,15 +1,13 @@
 #pragma once
-#include <iostream>
 #include <SDL2/SDL.h>
-#include "defs.hpp"
-#include "components.hpp"
-#include "game.hpp"
+#include "ecs.hpp"
+
+class PhysicsComponent;
+class GraphicsComponent;
+class JumpingComponent;
 
 class InputComponent : public Component {
 	public:
-		PhysicsComponent* pc;
-		GraphicsComponent* gc;
-
 		bool moving_forward = false;
 		bool moving_backward = false;
 		bool jumping = false;
@@ -21,6 +19,8 @@ class InputComponent : public Component {
 		void update(Entity* entity);
 			
 	private:
+		PhysicsComponent* pc;
+		GraphicsComponent* gc;
+		JumpingComponent* jc;
 		const float LATERAL_SPEED = 5;
-		const float LONGITUDINAL_SPEED = 50;
 };

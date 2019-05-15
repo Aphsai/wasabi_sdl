@@ -14,6 +14,7 @@ class EntityManager {
 		void addEntityToGroup(Entity*, const int);
 		void removeEntityFromGroup(Entity*, const int);
 		std::unordered_set<Entity*> getComponentGroup(const int);
+
 	private:
 		std::vector<std::unordered_set<Entity*>> component_groups;
 		std::vector<Entity*> entities;

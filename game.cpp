@@ -1,3 +1,4 @@
+#include <iostream>
 #include "game.hpp"
 #include "map.hpp"
 #include "defs.hpp"
@@ -29,14 +30,28 @@ Game::Game() {
 	Map::loadMap("assets/map.map");
 	Game::manager = new EntityManager();
 	Entity* sushi = new Sushi(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-	Entity* ace = new Tile(20, 16, SCREEN_WIDTH / 3, SCREEN_HEIGHT / 2);
-	Entity* two = new Tile(21, 16, SCREEN_WIDTH / 3 * 2, SCREEN_HEIGHT / 2);
+
+	Entity* ace = new Tile(20, 16, SCREEN_WIDTH / 3 + TILESHEET_SIZE * 2 * SCALING, SCREEN_HEIGHT / 2+ TILESHEET_SIZE * 2 * SCALING);
+	Entity* two = new Tile(21, 16, SCREEN_WIDTH / 3 + TILESHEET_SIZE * 3 * SCALING, SCREEN_HEIGHT / 2+ TILESHEET_SIZE * 2 * SCALING);
+	Entity* three = new Tile(22, 16, SCREEN_WIDTH / 3 + TILESHEET_SIZE * 4 * SCALING, SCREEN_HEIGHT / 2 + TILESHEET_SIZE * 2 * SCALING);
+	Entity* four = new Tile(23, 16, SCREEN_WIDTH / 3 + TILESHEET_SIZE * 5 * SCALING, SCREEN_HEIGHT / 2 + TILESHEET_SIZE * 2 * SCALING);
+	Entity* five = new Tile(24, 16, SCREEN_WIDTH / 3 + TILESHEET_SIZE * 6 * SCALING, SCREEN_HEIGHT / 2 + TILESHEET_SIZE * 2 * SCALING);
+	Entity* six = new Tile(25, 16, SCREEN_WIDTH / 3 + TILESHEET_SIZE * 7 * SCALING, SCREEN_HEIGHT / 2 + TILESHEET_SIZE * 2 * SCALING);
+
 	manager->addEntity(sushi);
 	manager->addEntity(ace);
 	manager->addEntity(two);
+	manager->addEntity(three);
+	manager->addEntity(four);
+	manager->addEntity(five);
+	manager->addEntity(six);
 	manager->addEntityToGroup(sushi, COLLIDER_COMPONENT);
 	manager->addEntityToGroup(ace, COLLIDER_COMPONENT);
 	manager->addEntityToGroup(two, COLLIDER_COMPONENT);
+	manager->addEntityToGroup(three, COLLIDER_COMPONENT);
+	manager->addEntityToGroup(four, COLLIDER_COMPONENT);
+	manager->addEntityToGroup(five, COLLIDER_COMPONENT);
+	manager->addEntityToGroup(six, COLLIDER_COMPONENT);
 }
 
 Game::~Game() {
@@ -59,7 +74,7 @@ void Game::checkCollision() {
 	for (Entity* a : Game::manager->getComponentGroup(COLLIDER_COMPONENT)) {
 		for (Entity* b: Game::manager->getComponentGroup(COLLIDER_COMPONENT)) {
 			if (a->tag != b->tag) {
-				a->getComponent<ColliderComponent>(COLLIDER_COMPONENT).hasCollision(b->getComponent<ColliderComponent>(COLLIDER_COMPONENT));
+				a->getComponent<ColliderComponent>(COLLIDER_COMPONENT).hasCollision(a, b);
 			}
 		}
 	}

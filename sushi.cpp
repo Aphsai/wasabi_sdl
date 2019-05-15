@@ -1,8 +1,10 @@
+#include <iostream>
 #include "sushi.hpp"
+#include "defs.hpp"
 
 Sushi::Sushi(int x, int y) {
-	xpos = x;
-	ypos = y;
+	p_xpos = xpos = x;
+	p_ypos = ypos = y;
 
 	generateTag();
 	init();
@@ -18,16 +20,13 @@ void Sushi::addAnimations() {
 
 void Sushi::init() {
 	std::cout << "Sushi tag: " << tag << std::endl;
-
 	addComponent<InputComponent>(INPUT_COMPONENT);
 	addComponent<GraphicsComponent>(GRAPHICS_COMPONENT, SDL_Rect { SPRITESHEET_LOCATION_X * TILESHEET_SIZE, SPRITESHEET_LOCATION_Y * TILESHEET_SIZE, TILESHEET_SIZE, TILESHEET_SIZE });
 	addComponent<PhysicsComponent>(PHYSICS_COMPONENT);
-	addComponent<ColliderComponent>(COLLIDER_COMPONENT, "Player");
-
+	addComponent<ColliderComponent>(COLLIDER_COMPONENT, 0);
+	addComponent<JumpingComponent>(JUMPING_COMPONENT, 50);
 	initComponents();
 }
-
-
 
 void Sushi::update() {
 	updateComponents();

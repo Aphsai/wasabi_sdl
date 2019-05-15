@@ -1,8 +1,15 @@
+#include <iostream>
+#include "game.hpp"
+#include "defs.hpp"
 #include "input-component.hpp"
+#include "physics-component.hpp"
+#include "jumping-component.hpp"
+#include "graphics-component.hpp"
 
 void InputComponent::init(Entity* entity) {
 	pc = &entity->getComponent<PhysicsComponent>(PHYSICS_COMPONENT);
 	gc = &entity->getComponent<GraphicsComponent>(GRAPHICS_COMPONENT);
+	jc = &entity->getComponent<JumpingComponent>(JUMPING_COMPONENT);
 }
 
 void InputComponent::handleKeypress() {
@@ -43,12 +50,6 @@ void InputComponent::handleKeypress() {
 void InputComponent::update(Entity* entity) {
 	handleKeypress();	
 
-	if (entity->ypos > SCREEN_HEIGHT / 2) {
-		entity->ypos = SCREEN_HEIGHT / 2;
-		pc->yvel = 0;
-		gc->setAnimation(LAND);
-		inJump = false;
-	}
 	if (moving_forward) {
 		pc->xvel = LATERAL_SPEED;
 		if (!inJump)
@@ -59,12 +60,9 @@ void InputComponent::update(Entity* entity) {
 		gc->unsetAnimation();
 		pc->xvel = 0;
 	}
-	if (!inJump) {
-		if (jumping) {
-			pc->yvel = -LONGITUDINAL_SPEED;
-			gc->setAnimation(JUMP);
-			inJump = true;
-		}
-		else pc->yvel = 0;
+	if (!jc->isJumping) {
+		jc->jump();
+		gc->setAnimation(JUMP);
 	}
+	else pc->yvel = 0;
 }

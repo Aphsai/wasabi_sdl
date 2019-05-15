@@ -1,9 +1,5 @@
 #pragma once
-#include <iostream>
-#include "defs.hpp"
-#include "input-component.hpp"
-#include "graphics-component.hpp"
-#include "physics-component.hpp"
+#include "components.hpp"
 
 class Sushi : public Entity {
 	public:

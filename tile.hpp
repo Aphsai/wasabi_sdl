@@ -1,7 +1,6 @@
+#pragma once
 #include <SDL2/SDL.h>
-#include <iostream>
 #include "components.hpp"
-#include "defs.hpp"
 
 class Tile : public Entity {
 	public:

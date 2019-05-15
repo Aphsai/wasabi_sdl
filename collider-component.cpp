@@ -1,12 +1,15 @@
 #include "collider-component.hpp"
-#include "game.hpp"
+#include "collision.hpp"
+#include "defs.hpp"
 
-ColliderComponent::ColliderComponent(const char* t) {
+Collision ColliderComponent::c;
+
+ColliderComponent::ColliderComponent(int t) {
 	type = t;
 	collider.w = collider.h = TILESHEET_SIZE * SCALING;
 }
 
-ColliderComponent::ColliderComponent(const char* t, int w, int h) {
+ColliderComponent::ColliderComponent(int t, int w, int h) {
 	type = t;
 	collider.w = w;
 	collider.h = h;
@@ -23,8 +26,6 @@ void ColliderComponent::update(Entity *entity) {
 	collider.y = entity->ypos;
 }
 
-void ColliderComponent::hasCollision(ColliderComponent a) {
-	if (SDL_HasIntersection(&a.collider, &collider)) {
-		std::cout << a.tag << " intersection  " << tag << std::endl;
-	}
+void ColliderComponent::hasCollision(Entity* a, Entity* b) {
+	c.handleCollision(a, b);
 }
