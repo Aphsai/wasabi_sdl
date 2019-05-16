@@ -22,5 +22,4 @@ class InputComponent : public Component {
 		PhysicsComponent* pc;
 		GraphicsComponent* gc;
 		JumpingComponent* jc;
-		const float LATERAL_SPEED = 5;
 };

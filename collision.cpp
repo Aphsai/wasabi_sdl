@@ -1,62 +1,42 @@
 #include <iostream>
 #include <math.h>
 #include "collision.hpp"
-#include "jumping-component.hpp"
+#include "components.hpp"
 
-void Collision::handleCollision(Entity* a, Entity* b) {
-	SDL_Rect a_rect = a->getComponent<ColliderComponent>(COLLIDER_COMPONENT).collider;	
-	SDL_Rect b_rect = b->getComponent<ColliderComponent>(COLLIDER_COMPONENT).collider;	
-	pc = &a->getComponent<PhysicsComponent>(PHYSICS_COMPONENT);
 
-	if (SDL_IntersectRect(&a_rect, &b_rect, &intersection)) {
-		std::cout << "Intersection between : " << a->tag << " " << b->tag << std::endl;
-		horizontal = intersection.w <= intersection.h;
-		vertical = intersection.h < intersection.w;
-		collisionTable(a, b);
-	} else {
-		if (pc != nullptr) {
-			std::cout << "No collision found" << std::endl;
-		}
-	}
-}
 
-void Collision::collisionTable(Entity* a, Entity* b) {
+void Collision::collisionTable(Entity* a, Entity* b, bool horizontal, bool vertical, SDL_Rect& intersection) {
 
 	int a_type = a->getComponent<ColliderComponent>(COLLIDER_COMPONENT).type;
 	int b_type = b->getComponent<ColliderComponent>(COLLIDER_COMPONENT).type;
 
-
-	//std::cout << "Handling collision between: " << a_type << " " << b_type << std::endl;
-	
-	if (pc != nullptr) {
-		std::cout << "Velocity vectors: " << pc->xvel << " " << pc->yvel << std::endl;
-	}
-
+    //std::cout << "Logging ----- " << std::endl;
+    //std::cout << "Intersection Rectangle " << intersection.x << " " << intersection.y << " " << intersection.w << " " << intersection.h << std::endl;
+    //std::cout << a->xpos << " " << a->ypos << std::endl;
 	switch (a_type) {
 		case 0: {
+	        PhysicsComponent *pc = &a->getComponent<PhysicsComponent>(PHYSICS_COMPONENT);
+            JumpingComponent *jc = &a->getComponent<JumpingComponent>(JUMPING_COMPONENT);
 			switch(b_type) {
 				case 1: {
-						if (horizontal) {
-							if (intersection.x <= a->xpos) {
-								a->xpos += intersection.w;	
-							} else {
-								a->xpos -= intersection.w;
-							}
+					if (horizontal) {
+						if (intersection.x <= a->xpos) {
+							a->xpos += intersection.w;	
 						} else {
-							if (intersection.y <= a->ypos) {
-								a->ypos += intersection.h;
-								std::cout << "Top Collision" << std::endl;
-								pc->apply_normal_force = false;
-							} else {
-								a->ypos -= intersection.h;
-								std::cout << "Bottom Collision" << std::endl;
-								a->getComponent<JumpingComponent>(JUMPING_COMPONENT).isJumping = false;
-							}
+							a->xpos -= intersection.w;
+						}
+					} else {
+						if (intersection.y <= a->ypos) {
+							a->ypos += intersection.h;
+						} else {
+							a->ypos -= intersection.h;
+							pc->applyNormalForce();
+                            jc->resetJump();
 						}
 					}
+			        break;
+				}
 			}
-			break;
 		}
 	}
-	horizontal = vertical = false;
 }

@@ -31,12 +31,12 @@ Game::Game() {
 	Game::manager = new EntityManager();
 	Entity* sushi = new Sushi(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 
-	Entity* ace = new Tile(20, 16, SCREEN_WIDTH / 3 + TILESHEET_SIZE * 2 * SCALING, SCREEN_HEIGHT / 2+ TILESHEET_SIZE * 2 * SCALING);
+	Entity* ace = new Tile(20, 16, SCREEN_WIDTH / 3 + TILESHEET_SIZE * 2 * SCALING, SCREEN_HEIGHT / 2 + TILESHEET_SIZE * SCALING);
 	Entity* two = new Tile(21, 16, SCREEN_WIDTH / 3 + TILESHEET_SIZE * 3 * SCALING, SCREEN_HEIGHT / 2+ TILESHEET_SIZE * 2 * SCALING);
 	Entity* three = new Tile(22, 16, SCREEN_WIDTH / 3 + TILESHEET_SIZE * 4 * SCALING, SCREEN_HEIGHT / 2 + TILESHEET_SIZE * 2 * SCALING);
 	Entity* four = new Tile(23, 16, SCREEN_WIDTH / 3 + TILESHEET_SIZE * 5 * SCALING, SCREEN_HEIGHT / 2 + TILESHEET_SIZE * 2 * SCALING);
 	Entity* five = new Tile(24, 16, SCREEN_WIDTH / 3 + TILESHEET_SIZE * 6 * SCALING, SCREEN_HEIGHT / 2 + TILESHEET_SIZE * 2 * SCALING);
-	Entity* six = new Tile(25, 16, SCREEN_WIDTH / 3 + TILESHEET_SIZE * 7 * SCALING, SCREEN_HEIGHT / 2 + TILESHEET_SIZE * 2 * SCALING);
+	Entity* six = new Tile(25, 16, SCREEN_WIDTH / 3 + TILESHEET_SIZE * 7 * SCALING, SCREEN_HEIGHT / 2 + TILESHEET_SIZE * SCALING);
 
 	manager->addEntity(sushi);
 	manager->addEntity(ace);
@@ -97,7 +97,9 @@ void Game::gameLoop() {
 	while(run) {
 		frameStart = SDL_GetTicks();
 		SDL_PollEvent(&event);
+
 		if ((event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_q) || event.type == SDL_QUIT) run = false;
+
 		draw();
 		update();
 

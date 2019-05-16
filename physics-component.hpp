@@ -3,13 +3,18 @@
 
 class PhysicsComponent : public Component {
 	public:
-		const float GRAVITY = 11.81;
 		const float TIMESTEP = 0.15;
-		const float MAX_Y_VEL = 50;
+		const float TERMINAL_VELOCITY = 50;
 
 		bool apply_normal_force;
+
 		float xvel = 0;
 		float yvel = 0;
+        float xaccel = 0;
+        float yaccel = 0;
+
 		PhysicsComponent();
 		void update(Entity*);
+        void applyNormalForce();
+        void removeNormalForce();
 };

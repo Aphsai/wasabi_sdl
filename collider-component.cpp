@@ -26,6 +26,18 @@ void ColliderComponent::update(Entity *entity) {
 	collider.y = entity->ypos;
 }
 
-void ColliderComponent::hasCollision(Entity* a, Entity* b) {
-	c.handleCollision(a, b);
+bool ColliderComponent::hasCollision(Entity* a, Entity* b) {
+
+	SDL_Rect b_rect = b->getComponent<ColliderComponent>(COLLIDER_COMPONENT).collider;	
+    SDL_Rect intersection;
+
+	if (SDL_IntersectRect(&collider, &b_rect, &intersection)) {
+		bool horizontal = intersection.w < intersection.h;
+		bool vertical = intersection.h <= intersection.w;
+		c.collisionTable(a, b, horizontal, vertical, intersection);
+        update(a);
+        return true;
+	} 
+    return false;
 }
+

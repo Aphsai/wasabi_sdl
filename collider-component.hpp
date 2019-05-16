@@ -15,5 +15,5 @@ class ColliderComponent : public Component {
 		ColliderComponent(int, int w, int h);
 		void init(Entity*);
 		void update(Entity*);
-		void hasCollision(Entity*, Entity*);
+		bool hasCollision(Entity*, Entity*);
 };

@@ -8,6 +8,7 @@ class JumpingComponent : public Component {
 		JumpingComponent(float);
 		void init(Entity*);
 		void jump();
+        void resetJump();
 
 		float jumpMagnitude;
 		bool isJumping;

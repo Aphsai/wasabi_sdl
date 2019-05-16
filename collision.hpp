@@ -1,13 +1,11 @@
 #pragma once
-#include "components.hpp"
+#include <SDL2/SDL.h>
+#include "ecs.hpp"
 
 class Collision {
 	public:
-		void handleCollision(Entity*, Entity*);
+		void collisionTable(Entity*, Entity*, bool, bool, SDL_Rect&);
 	private:
-		PhysicsComponent* pc;
 		bool horizontal;
 		bool vertical;
-		SDL_Rect intersection;
-		void collisionTable(Entity*, Entity*);
 };
