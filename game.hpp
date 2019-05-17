@@ -1,7 +1,6 @@
 #pragma once
 #include <SDL2/SDL.h>
-
-class EntityManager;
+#include "entity-manager.hpp"
 
 class Game {
 	public: 
@@ -11,6 +10,7 @@ class Game {
 		static SDL_Event event;
 		static SDL_Renderer* renderer;
 		static EntityManager* manager;
+        static SDL_Rect camera;
 
 	private:
 		void update();

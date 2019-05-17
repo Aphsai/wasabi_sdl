@@ -1,4 +1,5 @@
 #include <iostream>
+#include "game.hpp"
 #include "graphics-component.hpp"
 #include "texture-manager.hpp"
 #include "defs.hpp"
@@ -10,14 +11,12 @@ GraphicsComponent::GraphicsComponent(SDL_Rect &r) {
 }
 
 void GraphicsComponent::draw(Entity* entity) {
-	TextureManager::draw(src, SDL_Rect {entity->xpos, entity->ypos, src.w * SCALING, src.h * SCALING}, flip);
+	TextureManager::draw(src, SDL_Rect {Game::camera.x + entity->xpos, Game::camera.y + entity->ypos, src.w * SCALING, src.h * SCALING}, flip);
 }
 
 void GraphicsComponent::addAnimation(const char* name, SDL_Rect src, int f, int s) {
-	std::cout << "Animation " << name << " added!" << std::endl;
 	animations.push_back(new Animation(src, f, s));
 	animation_map.emplace(name, animations.back());
-
 }
 
 void GraphicsComponent::setAnimation(const char* name) {
@@ -40,4 +39,5 @@ void GraphicsComponent::update(Entity* entity) {
 			frameDelay = 0;
 		}
 	}
+    
 }

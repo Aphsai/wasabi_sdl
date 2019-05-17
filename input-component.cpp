@@ -49,21 +49,19 @@ void InputComponent::handleKeypress() {
 
 void InputComponent::update(Entity* entity) {
 	handleKeypress();	
+    
 	const float LATERAL_SPEED = 30;
 	if (moving_forward) {
-        gc->setAnimation(WALK);
 		pc->xvel = LATERAL_SPEED;
 	}
 	else if (moving_backward)  {
 		pc->xvel = -LATERAL_SPEED;
 	}
 	else {
-		gc->unsetAnimation();
 		pc->xvel = 0;
 	}
 
 	if (jumping && !jc->isJumping) {
 		jc->jump();
-		gc->setAnimation(JUMP);
 	}
 }

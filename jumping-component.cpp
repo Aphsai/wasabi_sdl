@@ -11,7 +11,7 @@ void JumpingComponent::resetJump() {
 }
 
 void JumpingComponent::jump() {
-    std::cout << "Jumping! " << jumpMagnitude << std::endl;
+    
     pc->removeNormalForce();
 	pc->yvel = -jumpMagnitude;
 	isJumping = true;

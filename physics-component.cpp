@@ -8,9 +8,9 @@ PhysicsComponent::PhysicsComponent() {
 
 void PhysicsComponent::update(Entity* entity) {
 
-	//std::cout << "Velocity vectors: " << xvel << " " << yvel << std::endl;
-    //std::cout << "Acceleration vectors: " << xaccel << " " << yaccel << std::endl;
-
+	//
+    //
+    //
 	entity->p_xpos = entity->xpos;
 	entity->p_ypos = entity->ypos;
 
@@ -19,7 +19,6 @@ void PhysicsComponent::update(Entity* entity) {
 
     yvel += yaccel * TIMESTEP;
     xvel += xaccel * TIMESTEP;
-
     removeNormalForce();
 
 }

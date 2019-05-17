@@ -5,7 +5,7 @@ COMPONENTS = collider-component.hpp collider-component.cpp input-component.hpp i
 #yt.Gopa.o : pA.hpp$(CC) $(CPPFLAGS) -c pa.cpp``W
 PROG = nirvana
 CC = ccache g++
-CPPFLAGS = -w -lSDL2 -lSDL2_image 
+CPPFLAGS = -w -lSDL2 -lSDL2_image -Wall
 OBJS = main.o collider-component.o input-component.o ecs.o graphics-component.o  physics-component.o jumping-component.o tile.o entity-manager.o collision.o map.o sushi.o texture-manager.o defs.hpp components.hpp animation.hpp game.o 
 
 $(PROG) : $(OBJS)

@@ -1,3 +1,4 @@
+#include <iostream>
 #include "collider-component.hpp"
 #include "collision.hpp"
 #include "defs.hpp"
@@ -27,7 +28,6 @@ void ColliderComponent::update(Entity *entity) {
 }
 
 bool ColliderComponent::hasCollision(Entity* a, Entity* b) {
-
 	SDL_Rect b_rect = b->getComponent<ColliderComponent>(COLLIDER_COMPONENT).collider;	
     SDL_Rect intersection;
 
@@ -35,9 +35,12 @@ bool ColliderComponent::hasCollision(Entity* a, Entity* b) {
 		bool horizontal = intersection.w < intersection.h;
 		bool vertical = intersection.h <= intersection.w;
 		c.collisionTable(a, b, horizontal, vertical, intersection);
+        
         update(a);
+        
         return true;
 	} 
     return false;
 }
+
 

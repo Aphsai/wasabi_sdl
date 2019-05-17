@@ -4,8 +4,8 @@
 
 class Tile : public Entity {
 	public:
-		int sprite_x;
-		int sprite_y;
+		int sprite_x = 0;
+		int sprite_y = 0;
 
 		Tile(int x, int y, int xp, int yp);
 		void init();

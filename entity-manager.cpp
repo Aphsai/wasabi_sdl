@@ -1,5 +1,6 @@
 #include "entity-manager.hpp"
 #include <iostream>
+#include "ecs.hpp"
 
 EntityManager::EntityManager() {
 	component_groups = std::vector<std::unordered_set<Entity*>>(MAX_COMPONENTS);
@@ -7,7 +8,7 @@ EntityManager::EntityManager() {
 }
 
 void EntityManager::addEntity(Entity* entity) {
-	entities.emplace_back(entity);
+	entities.push_back(entity);
 }
 
 void EntityManager::removeEntity(Entity* entity) {
@@ -31,7 +32,6 @@ void EntityManager::removeEntityFromGroup(Entity* entity, const int COMPONENT) {
 std::unordered_set<Entity*> EntityManager::getComponentGroup(const int COMPONENT) {
 	return component_groups[COMPONENT];
 }
-
 
 void EntityManager::updateEntities() {
 	for (Entity* entity : entities) {

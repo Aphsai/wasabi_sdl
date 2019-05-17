@@ -10,48 +10,26 @@
 
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
-EntityManager* Game::manager;
+SDL_Rect Game::camera;
+EntityManager* Game::manager = new EntityManager();
 
 Game::Game() {
 	window = SDL_CreateWindow("Wasabi", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if (window == NULL) {
-		std::cout << "Error initialized SDL_Window! " << SDL_GetError() << std::endl;
 		return;
 	}
-	std::cout << "Window initialized" << std::endl;
 	Game::renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	if (Game::renderer == NULL) {
-		std::cout << "Error initializing SDL_Renderer! " << SDL_GetError() << std::endl;
 		return;
 	}
-	std::cout << "Renderer initialized" << std::endl;
+    camera = SDL_Rect { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 	screen = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+
 	TextureManager::loadTexture("assets/Tilesheet/chopped.png");
-	Map::loadMap("assets/map.map");
-	Game::manager = new EntityManager();
-	Entity* sushi = new Sushi(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
 
-	Entity* ace = new Tile(20, 16, SCREEN_WIDTH / 3 + TILESHEET_SIZE * 2 * SCALING, SCREEN_HEIGHT / 2 + TILESHEET_SIZE * SCALING);
-	Entity* two = new Tile(21, 16, SCREEN_WIDTH / 3 + TILESHEET_SIZE * 3 * SCALING, SCREEN_HEIGHT / 2+ TILESHEET_SIZE * 2 * SCALING);
-	Entity* three = new Tile(22, 16, SCREEN_WIDTH / 3 + TILESHEET_SIZE * 4 * SCALING, SCREEN_HEIGHT / 2 + TILESHEET_SIZE * 2 * SCALING);
-	Entity* four = new Tile(23, 16, SCREEN_WIDTH / 3 + TILESHEET_SIZE * 5 * SCALING, SCREEN_HEIGHT / 2 + TILESHEET_SIZE * 2 * SCALING);
-	Entity* five = new Tile(24, 16, SCREEN_WIDTH / 3 + TILESHEET_SIZE * 6 * SCALING, SCREEN_HEIGHT / 2 + TILESHEET_SIZE * 2 * SCALING);
-	Entity* six = new Tile(25, 16, SCREEN_WIDTH / 3 + TILESHEET_SIZE * 7 * SCALING, SCREEN_HEIGHT / 2 + TILESHEET_SIZE * SCALING);
-
+    Entity* sushi = new Sushi(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE);
 	manager->addEntity(sushi);
-	manager->addEntity(ace);
-	manager->addEntity(two);
-	manager->addEntity(three);
-	manager->addEntity(four);
-	manager->addEntity(five);
-	manager->addEntity(six);
-	manager->addEntityToGroup(sushi, COLLIDER_COMPONENT);
-	manager->addEntityToGroup(ace, COLLIDER_COMPONENT);
-	manager->addEntityToGroup(two, COLLIDER_COMPONENT);
-	manager->addEntityToGroup(three, COLLIDER_COMPONENT);
-	manager->addEntityToGroup(four, COLLIDER_COMPONENT);
-	manager->addEntityToGroup(five, COLLIDER_COMPONENT);
-	manager->addEntityToGroup(six, COLLIDER_COMPONENT);
+	Map::loadMap("assets/map.map");
 }
 
 Game::~Game() {
@@ -73,7 +51,7 @@ void Game::draw() {
 void Game::checkCollision() {
 	for (Entity* a : Game::manager->getComponentGroup(COLLIDER_COMPONENT)) {
 		for (Entity* b: Game::manager->getComponentGroup(COLLIDER_COMPONENT)) {
-			if (a->tag != b->tag) {
+			if (a->getComponent<ColliderComponent>(COLLIDER_COMPONENT).type != b->getComponent<ColliderComponent>(COLLIDER_COMPONENT).type) {
 				a->getComponent<ColliderComponent>(COLLIDER_COMPONENT).hasCollision(a, b);
 			}
 		}
@@ -93,7 +71,7 @@ void Game::gameLoop() {
 
 	unsigned int frameStart;
 	int frameTime;
-	std::cout << "Game loop initialized" << std::endl;
+	
 	while(run) {
 		frameStart = SDL_GetTicks();
 		SDL_PollEvent(&event);

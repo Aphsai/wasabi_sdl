@@ -1,5 +1,5 @@
 //Game specific
-#define SCREEN_WIDTH 1200
+#define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
 #define TILESHEET_SIZE 16
 #define GRAVITY 9.81
@@ -16,4 +16,6 @@
 #define FALL "FALL"
 #define LAND "LAND"
 
-
+//ENTITY TYPES
+#define PLAYER 0
+#define TERRAIN 1

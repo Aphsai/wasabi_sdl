@@ -2,7 +2,8 @@
 #include <SDL2/SDL.h>
 #include <vector>
 #include <unordered_set>
-#include "ecs.hpp"
+
+class Entity;
 
 class EntityManager {
 	public: 
