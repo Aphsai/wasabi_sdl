@@ -10,14 +10,15 @@ class GraphicsComponent : public Component {
 	public: 
 		SDL_RendererFlip flip;
 		GraphicsComponent(SDL_Rect&);
+        int lastSeen;
+
 		void draw(Entity*);
-		void addAnimation(const char*, SDL_Rect, int, int);
-		void setAnimation(const char*);
+		void addAnimation(int, SDL_Rect, int, int);
+		void setAnimation(int, SDL_RendererFlip);
 		void unsetAnimation();
 		void update(Entity*);
 	private:
-		std::vector<Animation*> animations;
-		std::unordered_map<const char*, Animation*> animation_map;
+		std::unordered_map<int, Animation*> animation_map;
 		Animation* currentAnimation;
 		SDL_Rect src;
 		int frameDelay = 0;
