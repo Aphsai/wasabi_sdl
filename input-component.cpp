@@ -5,11 +5,13 @@
 #include "physics-component.hpp"
 #include "jumping-component.hpp"
 #include "graphics-component.hpp"
+#include "collider-component.hpp"
 
 void InputComponent::init(Entity* entity) {
 	pc = &entity->getComponent<PhysicsComponent>(PHYSICS_COMPONENT);
 	gc = &entity->getComponent<GraphicsComponent>(GRAPHICS_COMPONENT);
 	jc = &entity->getComponent<JumpingComponent>(JUMPING_COMPONENT);
+    cc = &entity->getComponent<ColliderComponent>(COLLIDER_COMPONENT);
 }
 
 void InputComponent::handleKeypress() {
@@ -49,12 +51,12 @@ void InputComponent::handleKeypress() {
 
 void InputComponent::update(Entity* entity) {
 	handleKeypress();	
-    
 	const float LATERAL_SPEED = 30;
-	if (moving_forward) {
+	if (moving_forward && !cc->rightCollision) {
 		pc->xvel = LATERAL_SPEED;
+        gc->setAnimation(WALK);
 	}
-	else if (moving_backward)  {
+	else if (moving_backward && !cc->leftCollision)  {
 		pc->xvel = -LATERAL_SPEED;
 	}
 	else {

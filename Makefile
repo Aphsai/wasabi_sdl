@@ -16,7 +16,7 @@ collider-component.o : collider-component.hpp collider-component.cpp
 	$(CC) $(CPPFLAGS) -c collider-component.cpp
 input-component.o : input-component.hpp input-component.cpp
 	$(CC) $(CPPFLAGS) -c input-component.cpp
-ecs.o : ecs.hpp
+ecs.o : ecs.hpp ecs.cpp
 	$(CC) $(CPPFLAGS) -c ecs.cpp
 graphics-component.o : graphics-component.hpp graphics-component.cpp
 	$(CC) $(CPPFLAGS) -c graphics-component.cpp

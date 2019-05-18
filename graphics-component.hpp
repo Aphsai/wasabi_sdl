@@ -22,6 +22,3 @@ class GraphicsComponent : public Component {
 		SDL_Rect src;
 		int frameDelay = 0;
 };	
-		
-
-

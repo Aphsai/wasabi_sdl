@@ -27,8 +27,7 @@ Game::Game() {
 
 	TextureManager::loadTexture("assets/Tilesheet/chopped.png");
 
-    Entity* sushi = new Sushi(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE);
-	manager->addEntity(sushi);
+	manager->addEntity(new Sushi(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE));
 	Map::loadMap("assets/map.map");
 }
 
@@ -49,10 +48,13 @@ void Game::draw() {
 }
 
 void Game::checkCollision() {
+    ColliderComponent *a_c;
 	for (Entity* a : Game::manager->getComponentGroup(COLLIDER_COMPONENT)) {
+        a_c = &a->getComponent<ColliderComponent>(COLLIDER_COMPONENT);
+        a_c->resetCollision();
 		for (Entity* b: Game::manager->getComponentGroup(COLLIDER_COMPONENT)) {
-			if (a->getComponent<ColliderComponent>(COLLIDER_COMPONENT).type != b->getComponent<ColliderComponent>(COLLIDER_COMPONENT).type) {
-				a->getComponent<ColliderComponent>(COLLIDER_COMPONENT).hasCollision(a, b);
+			if (a_c->type != b->getComponent<ColliderComponent>(COLLIDER_COMPONENT).type) {
+				a_c->hasCollision(a, b);
 			}
 		}
 	}
@@ -78,8 +80,8 @@ void Game::gameLoop() {
 
 		if ((event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_q) || event.type == SDL_QUIT) run = false;
 
-		draw();
 		update();
+		draw();
 
 		frameTime = SDL_GetTicks() - frameStart;
 		if (frameDelay > frameTime) SDL_Delay(frameDelay - frameTime);

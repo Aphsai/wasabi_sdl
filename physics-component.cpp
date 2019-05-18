@@ -1,6 +1,7 @@
 #include "physics-component.hpp"
 #include "defs.hpp"
 #include <iostream>
+
 PhysicsComponent::PhysicsComponent() {
 	apply_normal_force = false;
 	yaccel = GRAVITY;
@@ -8,14 +9,11 @@ PhysicsComponent::PhysicsComponent() {
 
 void PhysicsComponent::update(Entity* entity) {
 
-	//
-    //
-    //
 	entity->p_xpos = entity->xpos;
 	entity->p_ypos = entity->ypos;
 
-	entity->xpos += 0.5 * xaccel * xaccel * TIMESTEP * TIMESTEP + xvel * TIMESTEP;
-	entity->ypos += 0.5 * yaccel * yaccel * TIMESTEP * TIMESTEP + yvel * TIMESTEP;
+	entity->xpos += static_cast<int>(0.5 * xaccel * xaccel * TIMESTEP * TIMESTEP + xvel * TIMESTEP);
+	entity->ypos += static_cast<int>(0.5 * yaccel * yaccel * TIMESTEP * TIMESTEP + yvel * TIMESTEP);
 
     yvel += yaccel * TIMESTEP;
     xvel += xaccel * TIMESTEP;

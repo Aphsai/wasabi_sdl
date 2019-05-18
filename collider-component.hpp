@@ -11,9 +11,15 @@ class ColliderComponent : public Component {
 		int tag = 0;
 		int type;
 
+        bool leftCollision = false;
+        bool rightCollision = false;
+        bool topCollision = false;
+        bool bottomCollision = false;
+
 		ColliderComponent(int);
 		ColliderComponent(int, int w, int h);
 		void init(Entity*);
 		void update(Entity*);
-		bool hasCollision(Entity*, Entity*);
+		void hasCollision(Entity*, Entity*);
+        void resetCollision();
 };

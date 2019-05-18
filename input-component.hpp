@@ -1,10 +1,12 @@
 #pragma once
+
 #include <SDL2/SDL.h>
 #include "ecs.hpp"
 
 class PhysicsComponent;
 class GraphicsComponent;
 class JumpingComponent;
+class ColliderComponent;
 
 class InputComponent : public Component {
 	public:
@@ -22,4 +24,5 @@ class InputComponent : public Component {
 		PhysicsComponent* pc;
 		GraphicsComponent* gc;
 		JumpingComponent* jc;
+        ColliderComponent* cc;
 };
