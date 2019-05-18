@@ -4,8 +4,8 @@
 #include "game.hpp"
 
 Sushi::Sushi(int x, int y) {
-	p_xpos = xpos = x;
-	p_ypos = ypos = y;
+	n_xpos = xpos = x;
+	n_ypos = ypos = y;
     jump_height = 50;
 
 	generateTag();

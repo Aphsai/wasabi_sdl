@@ -12,9 +12,9 @@ GraphicsComponent::GraphicsComponent(SDL_Rect &r) {
 }
 
 void GraphicsComponent::draw(Entity* entity) {
-	//TextureManager::draw(src, SDL_Rect { Game::camera.x + entity->xpos, Game::camera.y + entity->ypos, src.w * SCALING, src.h * SCALING }, flip)
+	//TextureManager::draw(src, SDL_Rect { Game::camera.x + entity->xpos, Game::camera.y + entity->ypos, src.w * SCALING, src.h * SCALING }, flip);
 	TextureManager::draw(src, SDL_Rect { entity->xpos, entity->ypos, src.w * SCALING, src.h * SCALING }, flip);
-        ColliderComponent* c = &entity->getComponent<ColliderComponent>(COLLIDER_COMPONENT);
+    ColliderComponent* c = &entity->getComponent<ColliderComponent>(COLLIDER_COMPONENT);
     if (c != nullptr) {
         SDL_SetRenderDrawColor(Game::renderer, 255, 0, 0, 255);
         SDL_RenderDrawRect(Game::renderer, &(entity->getComponent<ColliderComponent>(COLLIDER_COMPONENT).collider));

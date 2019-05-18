@@ -8,7 +8,6 @@ void Collision::collisionTable(Entity* a, Entity* b, bool horizontal, SDL_Rect& 
 
 	a_c = &a->getComponent<ColliderComponent>(COLLIDER_COMPONENT);
 	b_c = &b->getComponent<ColliderComponent>(COLLIDER_COMPONENT);
-
 	switch (a_c->type) {
 		case PLAYER: {
 	        PhysicsComponent *pc = &a->getComponent<PhysicsComponent>(PHYSICS_COMPONENT);
@@ -25,12 +24,12 @@ void Collision::collisionTable(Entity* a, Entity* b, bool horizontal, SDL_Rect& 
 						}
 					} else {
 						if (intersection.y <= a->ypos) {
-							a->ypos += intersection.h + 1;
+							a->ypos += (intersection.h + 1);
                             a_c->topCollision = true;
 						} else {
-							a->ypos -= intersection.h - 1;
-							pc->applyNormalForce();
+							a->ypos -= (intersection.h - 1);
                             jc->resetJump();
+							pc->applyNormalForce();
                             a_c->bottomCollision = true;
 						}
 					}

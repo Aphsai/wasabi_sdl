@@ -9,11 +9,11 @@ PhysicsComponent::PhysicsComponent() {
 
 void PhysicsComponent::update(Entity* entity) {
 
-	entity->p_xpos = entity->xpos;
-	entity->p_ypos = entity->ypos;
+	entity->xpos = entity->n_xpos;
+	entity->ypos = entity->n_ypos;
 
-	entity->xpos += static_cast<int>(0.5 * xaccel * xaccel * TIMESTEP * TIMESTEP + xvel * TIMESTEP);
-	entity->ypos += static_cast<int>(0.5 * yaccel * yaccel * TIMESTEP * TIMESTEP + yvel * TIMESTEP);
+	entity->n_xpos += static_cast<int>(0.5 * xaccel * xaccel * TIMESTEP * TIMESTEP + xvel * TIMESTEP);
+	entity->n_ypos += static_cast<int>(0.5 * yaccel * yaccel * TIMESTEP * TIMESTEP + yvel * TIMESTEP);
 
     yvel += yaccel * TIMESTEP;
     xvel += xaccel * TIMESTEP;

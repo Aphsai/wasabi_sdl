@@ -27,7 +27,7 @@ Game::Game() {
 
 	TextureManager::loadTexture("assets/Tilesheet/chopped.png");
 
-	manager->addEntity(new Sushi(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE));
+	manager->addEntity(new Sushi(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE * 2));
 	Map::loadMap("assets/map.map");
 }
 
@@ -52,9 +52,18 @@ void Game::checkCollision() {
 	for (Entity* a : Game::manager->getComponentGroup(COLLIDER_COMPONENT)) {
         a_c = &a->getComponent<ColliderComponent>(COLLIDER_COMPONENT);
         a_c->resetCollision();
+        //Resolve x-axis collisions
+        a->xpos = a->n_xpos;
 		for (Entity* b: Game::manager->getComponentGroup(COLLIDER_COMPONENT)) {
 			if (a_c->type != b->getComponent<ColliderComponent>(COLLIDER_COMPONENT).type) {
-				a_c->hasCollision(a, b);
+				a_c->hasCollision(a, b, true);
+			}
+		}
+        //Resolve y-axis collisions
+        a->ypos = a->n_ypos;
+        for (Entity* b: Game::manager->getComponentGroup(COLLIDER_COMPONENT)) {
+			if (a_c->type != b->getComponent<ColliderComponent>(COLLIDER_COMPONENT).type) {
+				a_c->hasCollision(a, b, false);
 			}
 		}
 	}

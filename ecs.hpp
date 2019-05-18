@@ -23,7 +23,7 @@ class Entity {
 		bool active = true;
 
 		int xpos = 0, ypos = 0;
-		int p_xpos = 0, p_ypos = 0;
+		int n_xpos = 0, n_ypos = 0;
 
 		int tag;
 

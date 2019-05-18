@@ -5,8 +5,8 @@
 Tile::Tile(int x, int y, int xp, int yp) {
 	sprite_x = x;
 	sprite_y = y;
-	xpos = xp;
-	ypos = yp;
+	n_xpos = xpos = xp;
+	n_ypos = ypos = yp;
 
 	generateTag();
 	init();
