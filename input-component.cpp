@@ -61,7 +61,7 @@ void InputComponent::update(Entity* entity) {
 	else if (moving_backward && !cc->leftCollision)  {
 		pc->xvel = -LATERAL_SPEED;
         flip = SDL_FLIP_HORIZONTAL;
-        //gc->setAnimation(WALK, flip);
+        gc->setAnimation(WALK, flip);
 	}
 	else {
 		pc->xvel = 0;

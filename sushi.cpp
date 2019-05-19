@@ -34,8 +34,8 @@ void Sushi::update() {
 }
 
 void Sushi::draw() {
-    Game::camera.x = SCREEN_WIDTH / 2 - xpos;
-    Game::camera.y = SCREEN_HEIGHT / 2 - TILESHEET_SIZE - ypos;
+    Game::camera.x += 0.1 * ((SCREEN_WIDTH / 2 - xpos) - Game::camera.x);
+    Game::camera.y += 0.1 * ((SCREEN_HEIGHT / 2 - TILESHEET_SIZE - ypos) - Game::camera.y);
 	drawComponents();
 }
 
