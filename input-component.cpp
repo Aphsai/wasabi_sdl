@@ -51,7 +51,7 @@ void InputComponent::handleKeypress() {
 
 void InputComponent::update(Entity* entity) {
 	handleKeypress();	
-	const float LATERAL_SPEED = 30;
+	const int LATERAL_SPEED = 30;
     SDL_RendererFlip flip;
 	if (moving_forward && !cc->rightCollision) {
 		pc->xvel = LATERAL_SPEED;

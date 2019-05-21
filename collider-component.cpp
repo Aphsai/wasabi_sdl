@@ -32,11 +32,12 @@ void ColliderComponent::hasCollision(Entity* a, Entity* b, bool x_axis) {
     SDL_Rect intersection;
     update(a);
 	if (SDL_IntersectRect(&collider, &b_rect, &intersection)) {
-		bool horizontal = intersection.w < intersection.h;
+        bool horizontal = intersection.w < intersection.h;
         if (horizontal == x_axis) {
-		    c.collisionTable(a, b, horizontal, intersection);
+		    c.collisionTable(a, b, x_axis, intersection);
         }
 	}
+    update(a);
 }
 
 void ColliderComponent::resetCollision() {
