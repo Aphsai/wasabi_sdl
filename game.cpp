@@ -61,7 +61,6 @@ void Game::checkCollision() {
 			}
 		}
         a->n_xpos = a->xpos;
-
         //Resolve y-axis collisions
         a->ypos = a->n_ypos;
         for (Entity* b: Game::manager->getComponentGroup(COLLIDER_COMPONENT)) {
@@ -70,6 +69,7 @@ void Game::checkCollision() {
 			}
 		}
         a->n_ypos = a->ypos;
+
 	}
 }
 

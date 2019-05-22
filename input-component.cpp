@@ -53,19 +53,29 @@ void InputComponent::update(Entity* entity) {
 	handleKeypress();	
 	const int LATERAL_SPEED = 30;
     SDL_RendererFlip flip;
-	if (moving_forward && !cc->rightCollision) {
-		pc->xvel = LATERAL_SPEED;
+	if (moving_forward) {
         flip = SDL_FLIP_NONE;
-        gc->setAnimation(WALK, flip);
+        if (!cc->rightCollision) {
+		    pc->xvel = LATERAL_SPEED;
+        }
+        if (!jc->isJumping) {
+            gc->setAnimation(WALK, flip);
+        }
 	}
-	else if (moving_backward && !cc->leftCollision)  {
-		pc->xvel = -LATERAL_SPEED;
+	else if (moving_backward)  {
         flip = SDL_FLIP_HORIZONTAL;
-        gc->setAnimation(WALK, flip);
+        if (!cc->leftCollision) {
+		    pc->xvel = -LATERAL_SPEED;
+        }
+        if (!jc->isJumping) {
+            gc->setAnimation(WALK, flip);
+        }
 	}
 	else {
 		pc->xvel = 0;
-        gc->unsetAnimation();
+        if (!jc->isJumping) {
+            gc->unsetAnimation();
+        }
 	}
 
 	if (jumping && !jc->isJumping) {

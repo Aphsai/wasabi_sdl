@@ -26,18 +26,18 @@ void Collision::collisionTable(Entity* a, Entity* b, bool horizontal, SDL_Rect& 
 				case TERRAIN: {
 					if (horizontal) {
 						if (intersection.x <= a->xpos) {
-							a->xpos += (intersection.w + 1);	
+							a->xpos += (intersection.w);	
                             a_c->leftCollision = true;
 						} else {
-							a->xpos -= (intersection.w + 1);
+							a->xpos -= (intersection.w);
                             a_c->rightCollision = true;
 						}
 					} else {
 						if (intersection.y <= a->ypos) {
-							a->ypos += (intersection.h + 1);
+							a->ypos += (intersection.h);
                             a_c->topCollision = true;
 						} else {
-							a->ypos -= (intersection.h + 1);
+							a->ypos -= (intersection.h);
                             jc->resetJump();
 							pc->applyNormalForce();
                             a_c->bottomCollision = true;

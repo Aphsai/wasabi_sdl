@@ -8,7 +8,6 @@ PhysicsComponent::PhysicsComponent() {
 }
 
 void PhysicsComponent::update(Entity* entity) {
-
 	entity->xpos = entity->n_xpos;
 	entity->ypos = entity->n_ypos;
 
@@ -18,7 +17,6 @@ void PhysicsComponent::update(Entity* entity) {
     yvel += yaccel * TIMESTEP;
     xvel += xaccel * TIMESTEP;
     removeNormalForce();
-
 }
 
 void PhysicsComponent::removeNormalForce() {
