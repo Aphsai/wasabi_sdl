@@ -4,6 +4,7 @@
 #include "camera-component.hpp"
 
 void Camera::priority_update() {
+
     int average_xpos = 0;
     int average_ypos = 0;
     int total_components = Game::manager->getComponentGroup(CAMERA_COMPONENT).size();
@@ -17,4 +18,5 @@ void Camera::priority_update() {
 
     xpos += SMOOTH * ((SCREEN_WIDTH / 2 - average_xpos) - xpos);
     ypos += SMOOTH * ((SCREEN_HEIGHT / 2 - average_ypos) - ypos);
+
 }

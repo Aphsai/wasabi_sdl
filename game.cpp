@@ -6,12 +6,14 @@
 #include "texture-manager.hpp"
 #include "sushi.hpp"
 #include "camera.hpp"
+#include "light.hpp"
 #include "tile.hpp"
 #include "entity-manager.hpp"
 
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 Entity* Game::camera;
+Entity* light;
 EntityManager* Game::manager = new EntityManager();
 
 Game::Game() {
@@ -30,7 +32,7 @@ Game::Game() {
 	manager->addEntity(new Sushi(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE * 2));
     manager->addEntity(Game::camera);
 	Map::loadMap("assets/map.map");
-    //manager->addEntity(new LightTest(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE * 2));
+    light = new LightTest(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE * 2);
 }
 
 Game::~Game() {
@@ -46,6 +48,7 @@ void Game::update() {
 }
 void Game::draw() {
 	clearScreen();
+    light->draw();
 	manager->drawEntities();
 	SDL_RenderPresent(Game::renderer);
 }
