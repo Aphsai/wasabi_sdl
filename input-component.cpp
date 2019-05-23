@@ -1,6 +1,7 @@
 #include <iostream>
 #include "game.hpp"
 #include "defs.hpp"
+#include "projectile.hpp"
 #include "input-component.hpp"
 #include "physics-component.hpp"
 #include "jumping-component.hpp"
@@ -29,6 +30,9 @@ void InputComponent::handleKeypress() {
 			case SDLK_s:
 				looking_down = true;
 				break;
+            case SDLK_SPACE:
+                fire = true;
+                break;
 			} 
 		}
 	if (Game::event.type == SDL_KEYUP) {
@@ -52,7 +56,7 @@ void InputComponent::handleKeypress() {
 void InputComponent::update(Entity* entity) {
 	handleKeypress();	
 	const int LATERAL_SPEED = 30;
-    SDL_RendererFlip flip;
+    const int PROJECTILE_SPEED = TILESHEET_SIZE * SCALING;
 	if (moving_forward) {
         flip = SDL_FLIP_NONE;
         if (!cc->rightCollision) {
@@ -77,6 +81,15 @@ void InputComponent::update(Entity* entity) {
             gc->unsetAnimation();
         }
 	}
+
+    if (fire) {
+        float velocity = PROJECTILE_SPEED;
+        if (flip == SDL_FLIP_HORIZONTAL) {
+           velocity = -velocity; 
+        }
+        fire = false;
+        Game::manager->addEntity(new Projectile(entity->xpos, entity->ypos, entity->tag, velocity));
+    }
 
 	if (jumping && !jc->isJumping) {
         gc->setAnimation(JUMP, flip);

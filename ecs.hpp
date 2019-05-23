@@ -5,7 +5,7 @@
 #include "game.hpp"
 
 #define MAX_COMPONENTS 32
-enum { INPUT_COMPONENT, GRAPHICS_COMPONENT, PHYSICS_COMPONENT, COLLIDER_COMPONENT, JUMPING_COMPONENT };
+enum { INPUT_COMPONENT, GRAPHICS_COMPONENT, PHYSICS_COMPONENT, COLLIDER_COMPONENT, JUMPING_COMPONENT, LIGHT_COMPONENT, CAMERA_COMPONENT };
 
 class Component;
 class Entity;
@@ -20,13 +20,15 @@ class Component {
 class Entity {
 	public:
 		std::vector<Component*> components = std::vector<Component*>(MAX_COMPONENTS, nullptr);
-		bool active = true;
+		bool mark_active = true;
+        bool mark_remove = false;
 
 		int xpos = 0, ypos = 0;
 		int n_xpos = 0, n_ypos = 0;
 
 		int tag;
-
+        
+        virtual void priority_update() {}
 		virtual void update() {}
 		virtual void draw() {}
 

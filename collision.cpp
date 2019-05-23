@@ -9,6 +9,8 @@ void Collision::collisionTable(Entity* a, Entity* b, bool horizontal, SDL_Rect& 
 
 	a_c = &a->getComponent<ColliderComponent>(COLLIDER_COMPONENT);
 	b_c = &b->getComponent<ColliderComponent>(COLLIDER_COMPONENT);
+
+    //Draw collision intersections
     //SDL_SetRenderDrawColor(Game::renderer, 255, 0, 0, 255);
     //SDL_RenderFillRect(Game::renderer, &intersection);
     //SDL_RenderPresent(Game::renderer);
@@ -47,5 +49,16 @@ void Collision::collisionTable(Entity* a, Entity* b, bool horizontal, SDL_Rect& 
 				}
 			}
 		}
+                     break;
+        case PROJECTILE: {
+            switch(b_c->type) {
+                case TERRAIN: {
+                    if (a->mark_remove == false) {
+                        a->mark_remove = true;
+                        b->mark_remove = true;
+                    }
+                }
+            }
+        }
 	}
 }

@@ -15,7 +15,7 @@ Sushi::Sushi(int x, int y) {
 
 void Sushi::addAnimations() {
 	GraphicsComponent* gc = &getComponent<GraphicsComponent>(GRAPHICS_COMPONENT);
-	gc->addAnimation(WALK, SDL_Rect { SPRITESHEET_LOCATION_X * TILESHEET_SIZE, SPRITESHEET_LOCATION_Y * TILESHEET_SIZE, TILESHEET_SIZE, TILESHEET_SIZE }, 3, 15);
+	gc->addAnimation(WALK, SDL_Rect { SPRITESHEET_LOCATION_X * TILESHEET_SIZE, SPRITESHEET_LOCATION_Y * TILESHEET_SIZE, TILESHEET_SIZE, TILESHEET_SIZE }, 3, 5);
 	gc->addAnimation(JUMP, SDL_Rect { 21 * TILESHEET_SIZE, 9 * TILESHEET_SIZE, TILESHEET_SIZE, TILESHEET_SIZE }, 1, 1);
 	gc->addAnimation(LAND, SDL_Rect { 22 * TILESHEET_SIZE, 9 * TILESHEET_SIZE, TILESHEET_SIZE, TILESHEET_SIZE }, 2, 10);
 }
@@ -26,6 +26,7 @@ void Sushi::init() {
 	addComponent<PhysicsComponent>(PHYSICS_COMPONENT);
 	addComponent<ColliderComponent>(COLLIDER_COMPONENT, PLAYER);
 	addComponent<JumpingComponent>(JUMPING_COMPONENT, jump_height);
+    addComponent<CameraComponent>(CAMERA_COMPONENT);
 	initComponents();
 }
 
@@ -34,8 +35,6 @@ void Sushi::update() {
 }
 
 void Sushi::draw() {
-    Game::camera.x += 0.1 * ((SCREEN_WIDTH / 2 - xpos) - Game::camera.x);
-    Game::camera.y += 0.1 * ((SCREEN_HEIGHT / 2 - TILESHEET_SIZE - ypos) - Game::camera.y);
 	drawComponents();
 }
 

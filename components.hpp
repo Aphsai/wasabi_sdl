@@ -5,4 +5,6 @@
 #include "physics-component.hpp"
 #include "collider-component.hpp"
 #include "jumping-component.hpp"
+#include "light-component.hpp"
+#include "camera-component.hpp"
 

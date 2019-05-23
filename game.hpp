@@ -1,7 +1,7 @@
 #pragma once
 #include <SDL2/SDL.h>
 #include "entity-manager.hpp"
-
+class Entity;
 class Game {
 	public: 
 		void gameLoop();
@@ -10,7 +10,7 @@ class Game {
 		static SDL_Event event;
 		static SDL_Renderer* renderer;
 		static EntityManager* manager;
-        static SDL_Rect camera;
+        static Entity* camera;
 
 	private:
 		void update();

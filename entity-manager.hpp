@@ -9,7 +9,7 @@ class EntityManager {
 	public: 
 		EntityManager();
 		void addEntity(Entity*);
-		void removeEntity(Entity*);
+        void refreshEntities();
 		void drawEntities();
 		void updateEntities();
 		void addEntityToGroup(Entity*, const int);
@@ -18,5 +18,5 @@ class EntityManager {
 
 	private:
 		std::vector<std::unordered_set<Entity*>> component_groups;
-		std::vector<Entity*> entities;
+		std::unordered_set<Entity*> entities;
 };

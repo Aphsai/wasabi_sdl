@@ -18,5 +18,4 @@ enum { WALK, RUN, IDLE, JUMP, FLY, ATTACK, FALL, LAND };
 //#define LAND "LAND"
 
 //ENTITY TYPES
-#define PLAYER 0
-#define TERRAIN 1
+enum { PLAYER, TERRAIN, PROJECTILE };

@@ -7,14 +7,7 @@ SDL_Texture* TextureManager::tex = nullptr;
 void TextureManager::loadTexture(const char* path) {
 	IMG_Init(IMG_INIT_PNG);
 	SDL_Surface *loadedSurface = IMG_Load(path);
-	if (loadedSurface < 0) {
-		
-	}
-
 	TextureManager::tex = SDL_CreateTextureFromSurface(Game::renderer, loadedSurface);
-	if (tex < 0) {
-		
-	}
 	SDL_FreeSurface(loadedSurface);
 	IMG_Quit();
 	

@@ -14,6 +14,7 @@ class InputComponent : public Component {
 		bool moving_backward = false;
 		bool jumping = false;
 		bool looking_down = false; 
+        bool fire = false;
 		bool inJump = false;
 
 		void init(Entity* entity);
@@ -21,6 +22,7 @@ class InputComponent : public Component {
 		void update(Entity* entity);
 			
 	private:
+        SDL_RendererFlip flip;
 		PhysicsComponent* pc;
 		GraphicsComponent* gc;
 		JumpingComponent* jc;
