@@ -5,51 +5,34 @@
 #include "collision.hpp"
 #include "components.hpp"
 
-void Collision::collisionTable(Entity* a, Entity* b, bool horizontal, SDL_Rect& intersection) {
+void Collision::collisionTable(Entity* a_e, Entity* b_e, bool axis, SDL_Rect& intersection) {
+
+    a = a_e;
+    b = b_e;
+
+    horizontal = axis;
 
 	a_c = &a->getComponent<ColliderComponent>(COLLIDER_COMPONENT);
 	b_c = &b->getComponent<ColliderComponent>(COLLIDER_COMPONENT);
 
-    //Draw collision intersections
-    //SDL_SetRenderDrawColor(Game::renderer, 255, 0, 0, 255);
-    //SDL_RenderFillRect(Game::renderer, &intersection);
-    //SDL_RenderPresent(Game::renderer);
-    //std::cout << "Collision" << std::endl;
-    //std::cout << "------------------------" << std::endl;
-    //std::cout << "Entities : " << a->tag << " " << b->tag << std::endl;
-    //std::cout << "Intersection : " << intersection.w << " " << intersection.h << " " << intersection.x << " " << intersection.y << std::endl;
-    //std::cout << "------------------------" << std::endl;
+    left = right = top = bottom = false;
 
 	switch (a_c->type) {
 		case PLAYER: {
-	        PhysicsComponent *pc = &a->getComponent<PhysicsComponent>(PHYSICS_COMPONENT);
-            JumpingComponent *jc = &a->getComponent<JumpingComponent>(JUMPING_COMPONENT);
 			switch(b_c->type) {
 				case TERRAIN: {
-					if (horizontal) {
-						if (intersection.x <= a->xpos) {
-							a->xpos += (intersection.w);	
-                            a_c->leftCollision = true;
-						} else {
-							a->xpos -= (intersection.w);
-                            a_c->rightCollision = true;
-						}
-					} else {
-						if (intersection.y <= a->ypos) {
-							a->ypos += (intersection.h);
-                            a_c->topCollision = true;
-						} else {
-							a->ypos -= (intersection.h);
-                            jc->resetJump();
-							pc->applyNormalForce();
-                            a_c->bottomCollision = true;
-						}
-					}
+
+                    determineDirection(intersection);
+                    preventIntangibility(intersection);
+
+                    if (bottom) {
+                        a->getComponent<JumpingComponent>(JUMPING_COMPONENT).resetJump();
+                    }
 			        break;
 				}
 			}
 		}
-                     break;
+        break;
         case PROJECTILE: {
             switch(b_c->type) {
                 case TERRAIN: {
@@ -60,5 +43,48 @@ void Collision::collisionTable(Entity* a, Entity* b, bool horizontal, SDL_Rect& 
                 }
             }
         }
+        break;
+        case ENEMY: {
+            switch(b_c->type) {
+                case TERRAIN: {
+                    determineDirection(intersection);
+                    preventIntangibility(intersection);
+                }
+            }
+        }
 	}
+}
+
+void Collision::determineDirection(SDL_Rect& intersection) {
+    if (horizontal) {
+    	if (intersection.x <= a->xpos) {
+            a_c->leftCollision = true;
+            left = true;
+    	} else {
+            a_c->rightCollision = true;
+            right = true;
+    	}
+    } else {
+    	if (intersection.y <= a->ypos) {
+            a_c->topCollision = true;
+            top = true;
+    	} else {
+            a_c->bottomCollision = true;
+            bottom = true;
+    	}
+    }
+}
+
+void Collision::preventIntangibility(SDL_Rect& intersection) {
+        PhysicsComponent *pc = &a->getComponent<PhysicsComponent>(PHYSICS_COMPONENT);
+		if (left) {
+			a->xpos += (intersection.w);	
+		} else if(right) {
+			a->xpos -= (intersection.w);
+		} else if (top) {
+			a->ypos += (intersection.h);
+		} else if (bottom) {
+			a->ypos -= (intersection.h);
+			pc->applyNormalForce();
+		}
 }

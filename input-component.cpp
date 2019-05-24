@@ -78,7 +78,7 @@ void InputComponent::update(Entity* entity) {
 	else {
 		pc->xvel = 0;
         if (!jc->isJumping) {
-            gc->unsetAnimation();
+            gc->setAnimation(IDLE, flip);
         }
 	}
 
@@ -91,8 +91,10 @@ void InputComponent::update(Entity* entity) {
         Game::manager->addEntity(new Projectile(entity->xpos, entity->ypos, entity->tag, velocity));
     }
 
-	if (jumping && !jc->isJumping) {
+	if (jumping) {
         gc->setAnimation(JUMP, flip);
-		jc->jump();
+        if (!jc->isJumping) {
+		    jc->jump();
+        }
 	}
 }

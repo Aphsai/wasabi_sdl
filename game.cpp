@@ -5,6 +5,7 @@
 #include "components.hpp"
 #include "texture-manager.hpp"
 #include "sushi.hpp"
+#include "enemy.hpp"
 #include "camera.hpp"
 #include "light.hpp"
 #include "tile.hpp"
@@ -27,9 +28,10 @@ Game::Game() {
 	}
 	screen = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 
-	TextureManager::loadTexture("assets/Tilesheet/chopped.png");
+	TextureManager::loadTexture("assets/Tilesheet/test.png");
     camera = new Camera();
 	manager->addEntity(new Sushi(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE * 2));
+    manager->addEntity(new Enemy(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE * 2));
     manager->addEntity(Game::camera);
 	Map::loadMap("assets/map.map");
     light = new LightTest(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE * 2);
@@ -81,7 +83,8 @@ void Game::checkCollision() {
 }
 
 void Game::clearScreen() {
-	SDL_SetRenderDrawColor(Game::renderer, 32, 45, 59, 255);
+	SDL_SetRenderDrawColor(Game::renderer, 94, 129, 162, 255);
+    //#5e81a2
 	SDL_RenderClear(Game::renderer);
 }
 
