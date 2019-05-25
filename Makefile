@@ -6,7 +6,7 @@ COMPONENTS = collider-component.hpp collider-component.cpp input-component.hpp i
 PROG = nirvana
 CC = ccache g++
 CPPFLAGS = -w -lSDL2 -lSDL2_image -lSDL2_gfx -Wall
-OBJS = main.o collider-component.o input-component.o ecs.o graphics-component.o  physics-component.o jumping-component.o light-component.o tile.o entity-manager.o collision.o map.o sushi.o texture-manager.o defs.hpp components.hpp animation.hpp game.o light.cpp light.hpp camera-component.hpp projectile.o camera.o enemy.o
+OBJS = main.o collider-component.o input-component.o ecs.o graphics-component.o  physics-component.o jumping-component.o light-component.o tile.o entity-manager.o collision.o map.o sushi.o texture-manager.o defs.hpp components.hpp animation.hpp game.o light.cpp light.hpp camera-component.hpp projectile.o camera.o enemy.o health-component.o
 
 $(PROG) : $(OBJS)
 	$(CC) $(CPPFLAGS) -o $(PROG) $(OBJS)
@@ -46,3 +46,5 @@ projectile.o : projectile.hpp projectile.cpp
 	$(CC) $(CPPFLAGS) -c projectile.cpp
 enemy.o : enemy.hpp enemy.cpp
 	$(CC) $(CPPFLAGS) -c enemy.cpp
+health-component.o : health-component.hpp health-component.cpp
+	$(CC) $(CPPFLAGS) -c health-component.cpp

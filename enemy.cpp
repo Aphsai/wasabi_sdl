@@ -20,7 +20,8 @@ void Enemy::init() {
     addComponent<GraphicsComponent>(GRAPHICS_COMPONENT, SDL_Rect { 20 * TILESHEET_SIZE, 12 * TILESHEET_SIZE, TILESHEET_SIZE, TILESHEET_SIZE });
     addComponent<PhysicsComponent>(PHYSICS_COMPONENT);
     addComponent<ColliderComponent>(COLLIDER_COMPONENT, ENEMY);
-    //addComponent<CameraComponent>(CAMERA_COMPONENT);
+    addComponent<CameraComponent>(CAMERA_COMPONENT);
+    addComponent<HealthComponent>(HEALTH_COMPONENT, 30);
     addAnimations();
     getComponent<PhysicsComponent>(PHYSICS_COMPONENT).xvel = 20;
     initComponents();

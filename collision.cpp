@@ -21,14 +21,12 @@ void Collision::collisionTable(Entity* a_e, Entity* b_e, bool axis, SDL_Rect& in
 		case PLAYER: {
 			switch(b_c->type) {
 				case TERRAIN: {
-
                     determineDirection(intersection);
                     preventIntangibility(intersection);
-
                     if (bottom) {
                         a->getComponent<JumpingComponent>(JUMPING_COMPONENT).resetJump();
                     }
-			        break;
+			    break;
 				}
 			}
 		}
@@ -40,6 +38,13 @@ void Collision::collisionTable(Entity* a_e, Entity* b_e, bool axis, SDL_Rect& in
                         a->mark_remove = true;
                         b->mark_remove = true;
                     }
+                break;
+                }
+                case ENEMY: {
+                    HealthComponent *hc = &b->getComponent<HealthComponent>(HEALTH_COMPONENT);
+                    hc->receiveDamage(b, 10);
+                    a->mark_remove = true;
+                    break;
                 }
             }
         }
@@ -49,6 +54,7 @@ void Collision::collisionTable(Entity* a_e, Entity* b_e, bool axis, SDL_Rect& in
                 case TERRAIN: {
                     determineDirection(intersection);
                     preventIntangibility(intersection);
+                break;
                 }
             }
         }

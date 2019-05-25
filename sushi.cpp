@@ -28,6 +28,7 @@ void Sushi::init() {
 	addComponent<ColliderComponent>(COLLIDER_COMPONENT, PLAYER);
 	addComponent<JumpingComponent>(JUMPING_COMPONENT, jump_height);
     addComponent<CameraComponent>(CAMERA_COMPONENT);
+    addComponent<HealthComponent>(HEALTH_COMPONENT, 100);
 	initComponents();
 }
 

@@ -44,9 +44,9 @@ Game::~Game() {
 }
 
 void Game::update() {
-    manager->refreshEntities();
-	manager->updateEntities();
 	checkCollision();
+	manager->updateEntities();
+    manager->refreshEntities();
 }
 void Game::draw() {
 	clearScreen();
@@ -83,7 +83,7 @@ void Game::checkCollision() {
 }
 
 void Game::clearScreen() {
-	SDL_SetRenderDrawColor(Game::renderer, 94, 129, 162, 255);
+	SDL_SetRenderDrawColor(Game::renderer, 47, 64, 81, 255);
     //#5e81a2
 	SDL_RenderClear(Game::renderer);
 }

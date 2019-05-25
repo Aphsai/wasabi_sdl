@@ -7,4 +7,5 @@
 #include "jumping-component.hpp"
 #include "light-component.hpp"
 #include "camera-component.hpp"
+#include "health-component.hpp"
 

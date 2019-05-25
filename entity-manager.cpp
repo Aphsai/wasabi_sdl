@@ -37,12 +37,12 @@ std::unordered_set<Entity*> EntityManager::getComponentGroup(const int COMPONENT
 
 void EntityManager::updateEntities() {
 	for (Entity* entity : entities) {
-		if (entity != nullptr && entity->mark_active == true) {
+		if (entity != nullptr && entity->mark_active == true && !entity->mark_remove) {
 			entity->priority_update();
 		}
 	}
 	for (Entity* entity : entities) {
-		if (entity != nullptr && entity->mark_active == true) {
+		if (entity != nullptr && entity->mark_active == true && !entity->mark_remove) {
 			entity->update();
 		}
 	}
@@ -50,7 +50,7 @@ void EntityManager::updateEntities() {
 
 void EntityManager::drawEntities() { 
 	for (Entity* entity : entities) {
-		if (entity != nullptr && entity->mark_active == true) {
+		if (entity != nullptr && entity->mark_active == true && !entity->mark_remove) {
 			entity->draw();
 		}
 	}
