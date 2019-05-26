@@ -7,6 +7,8 @@ Tile::Tile(int x, int y, int xp, int yp) {
 	sprite_y = y;
 	n_xpos = xpos = xp;
 	n_ypos = ypos = yp;
+    width = TILESHEET_SIZE * SCALING;
+    height = TILESHEET_SIZE * SCALING;
 
 	generateTag();
 	init();

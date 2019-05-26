@@ -56,30 +56,30 @@ void Game::draw() {
 }
 
 void Game::checkCollision() {
-    ColliderComponent *a_c;
-	for (Entity* a : Game::manager->getComponentGroup(COLLIDER_COMPONENT)) {
-        if (a->mark_active == false) continue;
-        a_c = &a->getComponent<ColliderComponent>(COLLIDER_COMPONENT);
-        a_c->resetCollision();
-
-        //Resolve x-axis collisions
-        a->xpos = a->n_xpos;
-		for (Entity* b: Game::manager->getComponentGroup(COLLIDER_COMPONENT)) {
-			if (a_c->type != b->getComponent<ColliderComponent>(COLLIDER_COMPONENT).type) {
-				a_c->hasCollision(a, b, true);
-			}
-		}
-        a->n_xpos = a->xpos;
-        //Resolve y-axis collisions
-        a->ypos = a->n_ypos;
-        for (Entity* b: Game::manager->getComponentGroup(COLLIDER_COMPONENT)) {
-			if (a_c->type != b->getComponent<ColliderComponent>(COLLIDER_COMPONENT).type) {
-				a_c->hasCollision(a, b, false);
-			}
-		}
-        a->n_ypos = a->ypos;
-
-	}
+//    ColliderComponent *a_c;
+//	for (Entity* a : Game::manager->getComponentGroup(COLLIDER_COMPONENT)) {
+//        if (a->mark_active == false) continue;
+//        a_c = &a->getComponent<ColliderComponent>(COLLIDER_COMPONENT);
+//        a_c->resetCollision();
+//
+//        //Resolve x-axis collisions
+//        a->xpos = a->n_xpos;
+//		for (Entity* b: Game::manager->getComponentGroup(COLLIDER_COMPONENT)) {
+//			if (a_c->type != b->getComponent<ColliderComponent>(COLLIDER_COMPONENT).type) {
+//				a_c->hasCollision(a, b, true);
+//			}
+//		}
+//        a->n_xpos = a->xpos;
+//        //Resolve y-axis collisions
+//        a->ypos = a->n_ypos;
+//        for (Entity* b: Game::manager->getComponentGroup(COLLIDER_COMPONENT)) {
+//			if (a_c->type != b->getComponent<ColliderComponent>(COLLIDER_COMPONENT).type) {
+//				a_c->hasCollision(a, b, false);
+//			}
+//		}
+//        a->n_ypos = a->ypos;
+//
+//	}
 }
 
 void Game::clearScreen() {

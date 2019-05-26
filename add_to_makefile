@@ -1,0 +1,4 @@
+#!/bin/sh
+
+sed -i "/^OBJS/ s/$/ $1.o/" Makefile
+echo -e "$1.o : $1.cpp $1.hpp\n\t\$(CC) \$(CPPFLAGS) -c $1.cpp" >> Makefile

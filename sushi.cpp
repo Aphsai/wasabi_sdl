@@ -7,6 +7,8 @@ Sushi::Sushi(int x, int y) {
 	n_xpos = xpos = x;
 	n_ypos = ypos = y;
     jump_height = 50;
+    width = TILESHEET_SIZE * SCALING;
+    height = TILESHEET_SIZE * SCALING;
 
 	generateTag();
 	init();

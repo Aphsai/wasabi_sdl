@@ -12,7 +12,7 @@ LightTest::LightTest(int x, int y) {
 
 void LightTest::init() {
     addComponent<LightComponent>(LIGHT_COMPONENT, 100, 0.3);
-    addComponent<CameraComponent>(CAMERA_COMPONENT);
+    //addComponent<CameraComponent>(CAMERA_COMPONENT);
 }
 
 void LightTest::update() {

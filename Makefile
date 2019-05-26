@@ -1,12 +1,7 @@
-OBJ = main.cpp game.hpp game.cpp defs.hpp texture-manager.hpp texture-manager.cpp sushi.hpp sushi.cpp animation.hpp map.hpp map.cpp tile.hpp tile.cpp entity-manager.hpp entity-manager.cpp collision.hpp collision.cpp
-
-COMPONENTS = collider-component.hpp collider-component.cpp input-component.hpp input-component.cpp ecs.hpp ecs.cpp graphics-component.hpp graphics-component.cpp components.hpp physics-component.hpp physics-component.cpp jumping-component.hpp jumping-component.cpp
-
-#yt.Gopa.o : pA.hpp$(CC) $(CPPFLAGS) -c pa.cpp``W
 PROG = nirvana
 CC = ccache g++
 CPPFLAGS = -w -lSDL2 -lSDL2_image -lSDL2_gfx -Wall
-OBJS = main.o collider-component.o input-component.o ecs.o graphics-component.o  physics-component.o jumping-component.o light-component.o tile.o entity-manager.o collision.o map.o sushi.o texture-manager.o defs.hpp components.hpp animation.hpp game.o light.cpp light.hpp camera-component.hpp projectile.o camera.o enemy.o health-component.o
+OBJS = main.o collider-component.o input-component.o ecs.o graphics-component.o  physics-component.o jumping-component.o light-component.o tile.o entity-manager.o collision.o map.o sushi.o texture-manager.o defs.hpp components.hpp animation.hpp game.o light.cpp light.hpp camera-component.hpp projectile.o camera.o enemy.o health-component.o quadtree.o
 
 $(PROG) : $(OBJS)
 	$(CC) $(CPPFLAGS) -o $(PROG) $(OBJS)
@@ -48,3 +43,5 @@ enemy.o : enemy.hpp enemy.cpp
 	$(CC) $(CPPFLAGS) -c enemy.cpp
 health-component.o : health-component.hpp health-component.cpp
 	$(CC) $(CPPFLAGS) -c health-component.cpp
+quadtree.o : quadtree.cpp quadtree.hpp
+	$(CC) $(CPPFLAGS) -c quadtree.cpp

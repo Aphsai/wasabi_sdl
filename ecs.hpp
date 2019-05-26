@@ -25,6 +25,7 @@ class Entity {
 
 		int xpos = 0, ypos = 0;
 		int n_xpos = 0, n_ypos = 0;
+        int width = 0, height = 0;
 
 		int tag;
         

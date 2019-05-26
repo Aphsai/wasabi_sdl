@@ -1,7 +1,10 @@
 #pragma once
 #include <SDL2/SDL.h>
 #include "entity-manager.hpp"
+
 class Entity;
+class Collision;
+
 class Game {
 	public: 
 		void gameLoop();
@@ -20,4 +23,5 @@ class Game {
 
 		SDL_Window *window;
 		SDL_Rect screen;
+        Collision c;
 };

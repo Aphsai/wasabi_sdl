@@ -1,5 +1,7 @@
 #include <iostream>
 #include "entity-manager.hpp"
+#include "game.hpp"
+#include "defs.hpp"
 #include "ecs.hpp"
 
 EntityManager::EntityManager() {
@@ -19,6 +21,12 @@ void EntityManager::refreshEntities() {
             }
             delete (*it);
             it = entities.erase(it);
+        } else {
+            if (Game::camera->xpos + (*it)->xpos > SCREEN_WIDTH || Game::camera->ypos + (*it)->ypos > SCREEN_HEIGHT) {
+                (*it)->mark_active = false;
+            } else {
+                (*it)->mark_active = true;
+            }
         }
     }
 }
