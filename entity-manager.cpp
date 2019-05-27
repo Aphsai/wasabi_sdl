@@ -21,8 +21,9 @@ void EntityManager::refreshEntities() {
             }
             delete (*it);
             it = entities.erase(it);
-        } else {
-            if (Game::camera->xpos + (*it)->xpos > SCREEN_WIDTH || Game::camera->ypos + (*it)->ypos > SCREEN_HEIGHT) {
+        } 
+	else {
+            if (Game::camera->xpos + (*it)->xpos > SCREEN_WIDTH || Game::camera->ypos + (*it)->ypos > SCREEN_HEIGHT || Game::camera->ypos + (*it)->ypos + (*it)->width < 0 || Game::camera->xpos + (*it)->xpos + (*it)->width < 0) {
                 (*it)->mark_active = false;
             } else {
                 (*it)->mark_active = true;
@@ -45,12 +46,12 @@ std::unordered_set<Entity*> EntityManager::getComponentGroup(const int COMPONENT
 
 void EntityManager::updateEntities() {
 	for (Entity* entity : entities) {
-		if (entity != nullptr && entity->mark_active && !entity->mark_remove) {
+		if (entity != nullptr && !entity->mark_remove) {
 			entity->priority_update();
 		}
 	}
 	for (Entity* entity : entities) {
-		if (entity != nullptr && entity->mark_active && !entity->mark_remove) {
+		if (entity != nullptr && !entity->mark_remove) {
 			entity->update();
 		}
 	}
@@ -58,7 +59,7 @@ void EntityManager::updateEntities() {
 
 void EntityManager::drawEntities() { 
 	for (Entity* entity : entities) {
-		if (entity != nullptr && entity->mark_active == true && !entity->mark_remove) {
+		if (entity != nullptr && entity->mark_active && !entity->mark_remove) {
 			entity->draw();
 		}
 	}

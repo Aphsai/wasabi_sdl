@@ -18,11 +18,7 @@ void Map::loadMap(const char* map_file) {
                     t = new Tile( 2 * TILESHEET_SIZE, 0 * TILESHEET_SIZE, y * TILESHEET_SIZE * SCALING, x * TILESHEET_SIZE * SCALING);
                     tmp.push_back(t);
                     Game::manager->addEntity(t);
-                } else if (a == 2) {
-                    t = new Tile( 3 * TILESHEET_SIZE, 1 * TILESHEET_SIZE, y * TILESHEET_SIZE * SCALING, x * TILESHEET_SIZE * SCALING);
-                    tmp.push_back(t);
-                    Game::manager->addEntity(t);
-                }
+		}
                 else {
                     tmp.push_back(nullptr);
                 }

@@ -9,7 +9,7 @@ class QuadTree;
 class Collision {
 
 	public:
-		void collisionTable(bool, SDL_Rect&);
+	void collisionTable(bool, SDL_Rect&);
         void handleCollision(std::unordered_set<Entity*>);
         void hasCollision(bool);
         QuadTree* quadtree = nullptr;
@@ -28,5 +28,5 @@ class Collision {
         bool right = false;
         bool top = false;
         bool bottom = false;
-		bool horizontal;
+	bool horizontal;
 };

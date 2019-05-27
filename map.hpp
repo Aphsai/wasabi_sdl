@@ -2,7 +2,6 @@
 #include <SDL2/SDL.h>
 #include <vector>
 #include "tile.hpp"
-#define MAP_SIZE 40
 
 class Map {
 	public:

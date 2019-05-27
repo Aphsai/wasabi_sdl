@@ -7,16 +7,15 @@ Tile::Tile(int x, int y, int xp, int yp) {
 	sprite_y = y;
 	n_xpos = xpos = xp;
 	n_ypos = ypos = yp;
-    width = TILESHEET_SIZE * SCALING;
-    height = TILESHEET_SIZE * SCALING;
-
+    	width = TILESHEET_SIZE * SCALING;
+    	height = TILESHEET_SIZE * SCALING;
 	generateTag();
 	init();
 }
 
 void Tile::init() {
 	addComponent<GraphicsComponent>(GRAPHICS_COMPONENT, SDL_Rect { sprite_x, sprite_y, TILESHEET_SIZE, TILESHEET_SIZE });
-    addComponent<ColliderComponent>(COLLIDER_COMPONENT, TERRAIN);
+    	addComponent<ColliderComponent>(COLLIDER_COMPONENT, TERRAIN);
 	initComponents();
 }
 

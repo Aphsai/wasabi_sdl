@@ -22,11 +22,8 @@ QuadTree::QuadTree(short x, short y, short w, short h, short d) {
 
 bool QuadTree::insert(Entity* entity) {
 
-    int relative_xpos = Game::camera->xpos + entity->xpos;
-    int relative_ypos = Game::camera->ypos + entity->ypos;
-   
     //Out of bounds, not part of this quadtree
-    if (relative_xpos + entity->width < xpos || relative_xpos > xpos + width || relative_ypos + entity->height < ypos || relative_ypos > ypos + height) {
+    if (entity->xpos + entity->width < xpos || entity->xpos > xpos + width || entity->ypos + entity->height < ypos || entity->ypos > ypos + height) {
         //std::cout << entity->tag << " was out of bounds." << std::endl;
         return false;
     }
@@ -68,7 +65,8 @@ void QuadTree::clean() {
         Entity* e = *it;
         int relative_xpos = Game::camera->xpos + e->xpos;
         int relative_ypos = Game::camera->ypos + e->ypos;
-        if (relative_xpos + e->width < xpos || relative_xpos > xpos + width || relative_ypos + e->height < ypos || relative_ypos > ypos + height) {
+        if (e->xpos + e->width < xpos || e->xpos > xpos + width || e->ypos + e->height < ypos || e->ypos > ypos + height) {
+	    //std::cout << e->tag << " has been removed from depth: " << depth << std::endl;
             it = entities.erase(it);
         } else {
             ++it;
@@ -99,14 +97,17 @@ void QuadTree::combine() {
     if (north_west->north_west == nullptr) {
         // all empty
         if (north_west->entities.size() == 0 && north_east->entities.size() == 0 && south_west->entities.size() == 0 && south_east->entities.size() == 0) {
+
             delete north_west;
             delete north_east;
             delete south_east;
             delete south_west;
+
             north_west = nullptr;
             north_east = nullptr;
             south_west = nullptr;
             south_east = nullptr;
+
         }
     } 
 

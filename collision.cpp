@@ -9,7 +9,7 @@
 void Collision::handleCollision(std::unordered_set<Entity*> entities) {
 
     if (quadtree == nullptr) {
-        quadtree = new QuadTree(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+        quadtree = new QuadTree(0, 0, MAP_SIZE * TILESHEET_SIZE * SCALING, MAP_SIZE * TILESHEET_SIZE * SCALING, 0);
     }
     quadtree->construct(entities);
 
@@ -29,14 +29,11 @@ void Collision::handleCollision(std::unordered_set<Entity*> entities) {
 
             //Resolve x-axis collisions
             a->xpos = a->n_xpos;
-            //std::cout << "Updated x position " << std::endl;
 	    	for (Entity* b_e: q->entities) {
-                //std::cout << "assigning b_collider" << std::endl;
 	            b_c = &b_e->getComponent<ColliderComponent>(COLLIDER_COMPONENT);	
 	    		if (a_c->type != b_c->type) {
-                    //std::cout << "differing types found" << std::endl;
                     b = b_e;
-                    std::cout << "\t with entity " << b->tag << std::endl;
+                    //std::cout << "\t with entity " << b->tag << std::endl;
                     hasCollision(true);
 	    		}
 	    	}
@@ -64,17 +61,17 @@ void Collision::handleCollision(std::unordered_set<Entity*> entities) {
 
 void Collision::hasCollision(bool x_axis) {
     SDL_Rect intersection;
+
     SDL_Rect a_collider = SDL_Rect { a->xpos, a->ypos, a->width, a->height };
     SDL_Rect b_collider = SDL_Rect { b->xpos, b->ypos, b->width, b->height };
+
 	if (SDL_IntersectRect(&a_collider, &b_collider, &intersection)) {
         bool horizontal = intersection.w < intersection.h;
         //std::cout << "collision found!" << std::endl;
-    void update(std::unordered_set<Entity*>);
         if (horizontal == x_axis) {
 		    collisionTable(x_axis, intersection);
         }
 	}
-    a_c->update(a);
 }
 
 void Collision::collisionTable(bool axis, SDL_Rect& intersection) {
