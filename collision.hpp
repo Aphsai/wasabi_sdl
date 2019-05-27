@@ -1,13 +1,19 @@
 #pragma once
 #include <SDL2/SDL.h>
-#include "ecs.hpp"
 #include <set>
+#include "ecs.hpp"
 
 class ColliderComponent;
+class QuadTree;
 
 class Collision {
+
 	public:
-		void collisionTable(Entity*, Entity*, bool, SDL_Rect&);
+		void collisionTable(bool, SDL_Rect&);
+        void handleCollision(std::unordered_set<Entity*>);
+        void hasCollision(bool);
+        QuadTree* quadtree = nullptr;
+
 	private:
         void preventIntangibility(SDL_Rect&);
         void determineDirection(SDL_Rect&);

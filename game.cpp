@@ -10,6 +10,7 @@
 #include "light.hpp"
 #include "tile.hpp"
 #include "entity-manager.hpp"
+#include "collision.hpp"
 
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
@@ -27,12 +28,12 @@ Game::Game() {
 		return;
 	}
 	screen = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
-
+    c = new Collision();
 	TextureManager::loadTexture("assets/Tilesheet/test.png");
     camera = new Camera();
-	manager->addEntity(new Sushi(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE * 2));
-    manager->addEntity(new Enemy(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE * 2));
-    manager->addEntity(Game::camera);
+    Game::manager->addEntity(new Sushi(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE * 2));
+    Game::manager->addEntity(new Enemy(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE * 2));
+    Game::manager->addEntity(Game::camera);
 	Map::loadMap("assets/map.map");
     light = new LightTest(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE * 2);
 }
@@ -45,17 +46,18 @@ Game::~Game() {
 
 void Game::update() {
 	checkCollision();
-	manager->updateEntities();
-    manager->refreshEntities();
+    Game::manager->updateEntities();
+    Game::manager->refreshEntities();
 }
 void Game::draw() {
 	clearScreen();
     light->draw();
-	manager->drawEntities();
+    Game::manager->drawEntities();
 	SDL_RenderPresent(Game::renderer);
 }
 
 void Game::checkCollision() {
+    c->handleCollision(Game::manager->getComponentGroup(COLLIDER_COMPONENT));
 //    ColliderComponent *a_c;
 //	for (Entity* a : Game::manager->getComponentGroup(COLLIDER_COMPONENT)) {
 //        if (a->mark_active == false) continue;
