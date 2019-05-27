@@ -12,61 +12,61 @@ void Collision::handleCollision(std::unordered_set<Entity*> entities) {
         quadtree = new QuadTree(0, 0, MAP_SIZE * TILESHEET_SIZE * SCALING, MAP_SIZE * TILESHEET_SIZE * SCALING, 0);
     }
 
-    quadtree->construct(entities);
     std::vector<QuadTree*> leaves;
+
+    quadtree->construct(entities);
     quadtree->getLeaves(leaves);
 
+    std::unordered_map<int, std::unordered_set<int>> collided_with;
     for (QuadTree* q : leaves) {
-        //SDL_Rect l = { q->xpos, q->ypos, q->width, q->height };
-        //SDL_RenderDrawRect(Game::renderer, &l);
-	for (Entity* a_e : q->entities) {
+        for (Entity* a_e : q->entities) {
             a = a_e;
 
-	        a_c = &a->getComponent<ColliderComponent>(COLLIDER_COMPONENT);	
+            a_c = &a->getComponent<ColliderComponent>(COLLIDER_COMPONENT);	
             a_c->resetCollision();
 
             //Resolve x-axis collisions
             a->xpos = a->n_xpos;
-	    	for (Entity* b_e: q->entities) {
-	            b_c = &b_e->getComponent<ColliderComponent>(COLLIDER_COMPONENT);
-	    		if (a_c->type != b_c->type) {
+            for (Entity* b_e: q->entities) {
+                b_c = &b_e->getComponent<ColliderComponent>(COLLIDER_COMPONENT);
+                if (a_c->type != b_c->type && collided_with[a->tag].find(b_e->tag) == collided_with[a->tag].end()) {
                     b = b_e;
-                    hasCollision(true);
-	    		}
-	    	}
+                    hasCollision(true, collided_with);
+                }
+            }
             a->n_xpos = a->xpos;
 
             //Resolve y-axis collisions
             a->ypos = a->n_ypos;
             for (Entity* b_e: q->entities) {
-	            b_c = &b_e->getComponent<ColliderComponent>(COLLIDER_COMPONENT);
-	    		if (a_c->type != b_c->type) {
+                b_c = &b_e->getComponent<ColliderComponent>(COLLIDER_COMPONENT);
+                if (a_c->type != b_c->type && collided_with[a->tag].find(b_e->tag) == collided_with[a->tag].end()) {
                     b = b_e;
-                    hasCollision(false);
-	    		}
-	    	}
+                    hasCollision(false, collided_with);
+                }
+            }
             a->n_ypos = a->ypos;
-	}
+        }
     }
     for (QuadTree *q : leaves) {
         q->clean();
     }
     quadtree->combine();
-    //SDL_RenderPresent(Game::renderer);
 }
 
-void Collision::hasCollision(bool x_axis) {
+void Collision::hasCollision(bool x_axis, std::unordered_map<int, std::unordered_set<int>>& collided_with) {
     SDL_Rect intersection;
 
     SDL_Rect a_collider = SDL_Rect { a->xpos, a->ypos, a->width, a->height };
     SDL_Rect b_collider = SDL_Rect { b->xpos, b->ypos, b->width, b->height };
 
-	if (SDL_IntersectRect(&a_collider, &b_collider, &intersection)) {
+    if (SDL_IntersectRect(&a_collider, &b_collider, &intersection)) {
         bool horizontal = intersection.w < intersection.h;
         if (horizontal == x_axis) {
-		    collisionTable(x_axis, intersection);
+            collided_with[a->tag].insert(b->tag);
+            collisionTable(x_axis, intersection);
         }
-	}
+    }
 }
 
 void Collision::collisionTable(bool axis, SDL_Rect& intersection) {
@@ -74,19 +74,19 @@ void Collision::collisionTable(bool axis, SDL_Rect& intersection) {
     horizontal = axis;
     left = right = top = bottom = false;
 
-	switch (a_c->type) {
-		case PLAYER: {
-			switch(b_c->type) {
-				case TERRAIN: {
+    switch (a_c->type) {
+        case PLAYER: {
+            switch(b_c->type) {
+                case TERRAIN: {
                     determineDirection(intersection);
                     preventIntangibility(intersection);
                     if (bottom) {
                         a->getComponent<JumpingComponent>(JUMPING_COMPONENT).resetJump();
                     }
-			        break;
-				}
-			}
-		}
+                    break;
+                }
+            }
+        }
         break;
         case PROJECTILE: {
             switch(b_c->type) {
@@ -98,8 +98,6 @@ void Collision::collisionTable(bool axis, SDL_Rect& intersection) {
                     break;
                 }
                 case ENEMY: {
-                    HealthComponent *hc = &b->getComponent<HealthComponent>(HEALTH_COMPONENT);
-                    hc->receiveDamage(b, 10);
                     a->mark_remove = true;
                     break;
                 }
@@ -113,41 +111,45 @@ void Collision::collisionTable(bool axis, SDL_Rect& intersection) {
                     preventIntangibility(intersection);
                     break;
                 }
+                case PROJECTILE: {
+                    HealthComponent* hc = &a->getComponent<HealthComponent>(HEALTH_COMPONENT);
+                    hc->receiveDamage(a, 10);
+                }
             }
         }
-	}
+    }
 }
 
 void Collision::determineDirection(SDL_Rect& intersection) {
     if (horizontal) {
-    	if (intersection.x <= a->xpos) {
+        if (intersection.x <= a->xpos) {
             a_c->leftCollision = true;
             left = true;
-    	} else {
+        } else {
             a_c->rightCollision = true;
             right = true;
-    	}
+        }
     } else {
-    	if (intersection.y <= a->ypos) {
+        if (intersection.y <= a->ypos) {
             a_c->topCollision = true;
             top = true;
-    	} else {
+        } else {
             a_c->bottomCollision = true;
             bottom = true;
-    	}
+        }
     }
 }
 
 void Collision::preventIntangibility(SDL_Rect& intersection) {
-        PhysicsComponent *pc = &a->getComponent<PhysicsComponent>(PHYSICS_COMPONENT);
-		if (left) {
-			a->xpos += (intersection.w);	
-		} else if(right) {
-			a->xpos -= (intersection.w);
-		} else if (top) {
-			a->ypos += (intersection.h);
-		} else if (bottom) {
-			a->ypos -= (intersection.h);
-			pc->applyNormalForce();
-		}
+    PhysicsComponent *pc = &a->getComponent<PhysicsComponent>(PHYSICS_COMPONENT);
+    if (left) {
+        a->xpos += (intersection.w);	
+    } else if(right) {
+        a->xpos -= (intersection.w);
+    } else if (top) {
+        a->ypos += (intersection.h);
+    } else if (bottom) {
+        a->ypos -= (intersection.h);
+        pc->applyNormalForce();
+    }
 }

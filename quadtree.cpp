@@ -58,7 +58,6 @@ void QuadTree::subdivide() {
 void QuadTree::clean() {
     for (auto it = entities.begin(); it != entities.end();) {
         if ((*it)->mark_remove) {
-            std::cout << "Entity will be deleted!" << std::endl;
             it = entities.erase(it);
             continue;
         }

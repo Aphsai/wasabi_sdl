@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL2/SDL.h>
 #include <set>
+#include <unordered_map>
 #include "ecs.hpp"
 
 class ColliderComponent;
@@ -9,9 +10,9 @@ class QuadTree;
 class Collision {
 
 	public:
-	void collisionTable(bool, SDL_Rect&);
+    	void collisionTable(bool, SDL_Rect&);
         void handleCollision(std::unordered_set<Entity*>);
-        void hasCollision(bool);
+        void hasCollision(bool, std::unordered_map<int, std::unordered_set<int>>&);
         QuadTree* quadtree = nullptr;
 
 	private:
@@ -28,5 +29,5 @@ class Collision {
         bool right = false;
         bool top = false;
         bool bottom = false;
-	bool horizontal;
+    	bool horizontal;
 };
