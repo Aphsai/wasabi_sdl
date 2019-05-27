@@ -5,6 +5,8 @@
 Enemy::Enemy(int x, int y) {
     original_x = n_xpos = xpos = x;
     original_y = n_ypos = ypos = y;
+    width = TILESHEET_SIZE * SCALING;
+    height = TILESHEET_SIZE * SCALING;
 
     generateTag();
     init();

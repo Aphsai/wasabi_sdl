@@ -16,9 +16,6 @@ void Collision::handleCollision(std::unordered_set<Entity*> entities) {
     std::vector<QuadTree*> leaves;
     quadtree->getLeaves(leaves);
 
-    //for (QuadTree *q : leaves) {
-    //    q->clean();
-    //}
     for (QuadTree* q : leaves) {
         SDL_Rect l = { q->xpos, q->ypos, q->width, q->height };
         SDL_RenderDrawRect(Game::renderer, &l);
@@ -28,7 +25,7 @@ void Collision::handleCollision(std::unordered_set<Entity*> entities) {
 	        a_c = &a->getComponent<ColliderComponent>(COLLIDER_COMPONENT);	
             a_c->resetCollision();
 
-            std::cout << "Checking entity " << a->tag << std::endl;
+            //std::cout << "Checking entity " << a->tag << std::endl;
 
             //Resolve x-axis collisions
             a->xpos = a->n_xpos;
@@ -57,7 +54,12 @@ void Collision::handleCollision(std::unordered_set<Entity*> entities) {
             a->n_ypos = a->ypos;
 	    }
     }
+    for (QuadTree *q : leaves) {
+        q->clean();
+    }
+    quadtree->combine();
     SDL_RenderPresent(Game::renderer);
+
 }
 
 void Collision::hasCollision(bool x_axis) {

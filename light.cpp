@@ -5,6 +5,8 @@
 LightTest::LightTest(int x, int y) {
     n_xpos = xpos = x;
     n_ypos = ypos = y;
+    width = 1;
+    height = 1;
 
     generateTag();
     init();

@@ -59,23 +59,21 @@ void QuadTree::subdivide() {
 }
 
 void QuadTree::clean() {
-    std::cout << "Entity size: " << std::endl;
-    std::cout << entities.size() << std::endl;
-    for (auto it = entities.begin(); it != entities.end(); it++) {
+    for (auto it = entities.begin(); it != entities.end();) {
         if ((*it)->mark_remove) {
             std::cout << "Entity will be deleted!" << std::endl;
             it = entities.erase(it);
             continue;
         }
         Entity* e = *it;
-        std::cout << "entity assigned!" << std::endl;
         int relative_xpos = Game::camera->xpos + e->xpos;
         int relative_ypos = Game::camera->ypos + e->ypos;
         if (relative_xpos + e->width < xpos || relative_xpos > xpos + width || relative_ypos + e->height < ypos || relative_ypos > ypos + height) {
             it = entities.erase(it);
+        } else {
+            ++it;
         }
     }
-    std::cout << "cleaned" << std::endl;
 }
 
 void QuadTree::construct(std::unordered_set<Entity*> collideable_entities) {
@@ -86,13 +84,41 @@ void QuadTree::construct(std::unordered_set<Entity*> collideable_entities) {
     }
 }
 
+void QuadTree::combine() {
+    if (north_west == nullptr) {
+        return;
+    }
+
+    //combine all children
+    north_west->combine();
+    north_east->combine();
+    south_west->combine();
+    south_east->combine();
+
+    // if it's a leaf node
+    if (north_west->north_west == nullptr) {
+        // all empty
+        if (north_west->entities.size() == 0 && north_east->entities.size() == 0 && south_west->entities.size() == 0 && south_east->entities.size() == 0) {
+            delete north_west;
+            delete north_east;
+            delete south_east;
+            delete south_west;
+            north_west = nullptr;
+            north_east = nullptr;
+            south_west = nullptr;
+            south_east = nullptr;
+        }
+    } 
+
+}
+
 void QuadTree::getLeaves (std::vector<QuadTree*>& v) {
     if (north_west == nullptr) {
         v.push_back(this);
-        return;
+    } else {
+        north_west->getLeaves(v);
+        north_east->getLeaves(v);
+        south_west->getLeaves(v);
+        south_east->getLeaves(v);
     }
-    north_west->getLeaves(v);
-    north_east->getLeaves(v);
-    south_west->getLeaves(v);
-    south_east->getLeaves(v);
 }

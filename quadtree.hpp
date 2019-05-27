@@ -25,6 +25,7 @@ struct QuadTree {
     bool insert(Entity*);
     void subdivide();
     void clean();
+    void combine();
     void construct(std::unordered_set<Entity*>);
     void getLeaves (std::vector<QuadTree*>&);
 
