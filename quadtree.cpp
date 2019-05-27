@@ -66,7 +66,6 @@ void QuadTree::clean() {
         int relative_xpos = Game::camera->xpos + e->xpos;
         int relative_ypos = Game::camera->ypos + e->ypos;
         if (e->xpos + e->width < xpos || e->xpos > xpos + width || e->ypos + e->height < ypos || e->ypos > ypos + height) {
-	    //std::cout << e->tag << " has been removed from depth: " << depth << std::endl;
             it = entities.erase(it);
         } else {
             ++it;
@@ -86,8 +85,7 @@ void QuadTree::combine() {
     if (north_west == nullptr) {
         return;
     }
-
-    //combine all children
+    
     north_west->combine();
     north_east->combine();
     south_west->combine();

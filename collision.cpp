@@ -11,29 +11,26 @@ void Collision::handleCollision(std::unordered_set<Entity*> entities) {
     if (quadtree == nullptr) {
         quadtree = new QuadTree(0, 0, MAP_SIZE * TILESHEET_SIZE * SCALING, MAP_SIZE * TILESHEET_SIZE * SCALING, 0);
     }
-    quadtree->construct(entities);
 
+    quadtree->construct(entities);
     std::vector<QuadTree*> leaves;
     quadtree->getLeaves(leaves);
 
     for (QuadTree* q : leaves) {
-        SDL_Rect l = { q->xpos, q->ypos, q->width, q->height };
-        SDL_RenderDrawRect(Game::renderer, &l);
-	    for (Entity* a_e : q->entities) {
+        //SDL_Rect l = { q->xpos, q->ypos, q->width, q->height };
+        //SDL_RenderDrawRect(Game::renderer, &l);
+	for (Entity* a_e : q->entities) {
             a = a_e;
 
 	        a_c = &a->getComponent<ColliderComponent>(COLLIDER_COMPONENT);	
             a_c->resetCollision();
 
-            //std::cout << "Checking entity " << a->tag << std::endl;
-
             //Resolve x-axis collisions
             a->xpos = a->n_xpos;
 	    	for (Entity* b_e: q->entities) {
-	            b_c = &b_e->getComponent<ColliderComponent>(COLLIDER_COMPONENT);	
+	            b_c = &b_e->getComponent<ColliderComponent>(COLLIDER_COMPONENT);
 	    		if (a_c->type != b_c->type) {
                     b = b_e;
-                    //std::cout << "\t with entity " << b->tag << std::endl;
                     hasCollision(true);
 	    		}
 	    	}
@@ -42,21 +39,20 @@ void Collision::handleCollision(std::unordered_set<Entity*> entities) {
             //Resolve y-axis collisions
             a->ypos = a->n_ypos;
             for (Entity* b_e: q->entities) {
-	            b_c = &b_e->getComponent<ColliderComponent>(COLLIDER_COMPONENT);	
+	            b_c = &b_e->getComponent<ColliderComponent>(COLLIDER_COMPONENT);
 	    		if (a_c->type != b_c->type) {
                     b = b_e;
                     hasCollision(false);
 	    		}
 	    	}
             a->n_ypos = a->ypos;
-	    }
+	}
     }
     for (QuadTree *q : leaves) {
         q->clean();
     }
     quadtree->combine();
-    SDL_RenderPresent(Game::renderer);
-
+    //SDL_RenderPresent(Game::renderer);
 }
 
 void Collision::hasCollision(bool x_axis) {
@@ -67,7 +63,6 @@ void Collision::hasCollision(bool x_axis) {
 
 	if (SDL_IntersectRect(&a_collider, &b_collider, &intersection)) {
         bool horizontal = intersection.w < intersection.h;
-        //std::cout << "collision found!" << std::endl;
         if (horizontal == x_axis) {
 		    collisionTable(x_axis, intersection);
         }

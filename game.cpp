@@ -45,48 +45,23 @@ Game::~Game() {
 }
 
 void Game::update() {
+   	Game::manager->refreshEntities();
 	checkCollision();
-    Game::manager->updateEntities();
-    Game::manager->refreshEntities();
+   	Game::manager->updateEntities();
 }
 void Game::draw() {
 	clearScreen();
-    light->draw();
-    Game::manager->drawEntities();
+   	light->draw();
+   	Game::manager->drawEntities();
 	SDL_RenderPresent(Game::renderer);
 }
 
 void Game::checkCollision() {
     c->handleCollision(Game::manager->getComponentGroup(COLLIDER_COMPONENT));
-//    ColliderComponent *a_c;
-//	for (Entity* a : Game::manager->getComponentGroup(COLLIDER_COMPONENT)) {
-//        if (a->mark_active == false) continue;
-//        a_c = &a->getComponent<ColliderComponent>(COLLIDER_COMPONENT);
-//        a_c->resetCollision();
-//
-//        //Resolve x-axis collisions
-//        a->xpos = a->n_xpos;
-//		for (Entity* b: Game::manager->getComponentGroup(COLLIDER_COMPONENT)) {
-//			if (a_c->type != b->getComponent<ColliderComponent>(COLLIDER_COMPONENT).type) {
-//				a_c->hasCollision(a, b, true);
-//			}
-//		}
-//        a->n_xpos = a->xpos;
-//        //Resolve y-axis collisions
-//        a->ypos = a->n_ypos;
-//        for (Entity* b: Game::manager->getComponentGroup(COLLIDER_COMPONENT)) {
-//			if (a_c->type != b->getComponent<ColliderComponent>(COLLIDER_COMPONENT).type) {
-//				a_c->hasCollision(a, b, false);
-//			}
-//		}
-//        a->n_ypos = a->ypos;
-//
-//	}
 }
 
 void Game::clearScreen() {
 	SDL_SetRenderDrawColor(Game::renderer, 47, 64, 81, 255);
-    //#5e81a2
 	SDL_RenderClear(Game::renderer);
 }
 
@@ -100,6 +75,7 @@ void Game::gameLoop() {
 	int frameTime;
 	
 	while(run) {
+
 		frameStart = SDL_GetTicks();
 		SDL_PollEvent(&event);
 
@@ -110,5 +86,6 @@ void Game::gameLoop() {
 
 		frameTime = SDL_GetTicks() - frameStart;
 		if (frameDelay > frameTime) SDL_Delay(frameDelay - frameTime);
+
 	}
 }
