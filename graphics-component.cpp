@@ -12,7 +12,8 @@ GraphicsComponent::GraphicsComponent(SDL_Rect &r) {
 }
 
 void GraphicsComponent::draw(Entity* entity) {
-	TextureManager::draw(src, SDL_Rect { Game::camera->xpos + entity->xpos, Game::camera->ypos + entity->ypos, src.w * SCALING, src.h * SCALING }, flip);
+	TextureManager::draw(src, SDL_Rect { Game::camera->xpos + entity->xpos, Game::camera->ypos + entity->ypos, src.w * SCALING, src.h * SCALING }, alpha, flip);
+    alpha = 255;
 }
 
 void GraphicsComponent::addAnimation(int name, SDL_Rect src, int f, int s) {
@@ -26,6 +27,13 @@ void GraphicsComponent::setAnimation(int name, SDL_RendererFlip f) {
     flip = f;
 }
 
+
+void GraphicsComponent::setAnimation(int name) {
+	if (animation_map.find(name) != animation_map.end()) {
+		currentAnimation = animation_map[name];
+	}
+}
+
 void GraphicsComponent::unsetAnimation() {
 	currentAnimation = nullptr;
 }
@@ -33,7 +41,7 @@ void GraphicsComponent::unsetAnimation() {
 void GraphicsComponent::update(Entity* entity) {
 	if (currentAnimation != nullptr) {
 		src = currentAnimation->src;
-		src.x += TILESHEET_SIZE * currentAnimation->index;
+		src.x += src.w * currentAnimation->index;
 		frameDelay++;
 		if (frameDelay > currentAnimation->speed) {
 			currentAnimation->index = (currentAnimation->index + 1) % currentAnimation->frames;

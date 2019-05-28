@@ -5,7 +5,6 @@
 class ColliderComponent : public Component {
 	public:
 		SDL_Rect collider;
-		int tag = 0;
 		int type;
 
         bool leftCollision = false;
@@ -14,9 +13,5 @@ class ColliderComponent : public Component {
         bool bottomCollision = false;
 
 		ColliderComponent(int);
-		ColliderComponent(int, int w, int h);
-		void init(Entity*);
 		void update(Entity*);
-		//void hasCollision(Entity*, Entity*, bool);
-        void resetCollision();
 };

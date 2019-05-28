@@ -55,8 +55,10 @@ void InputComponent::handleKeypress() {
 
 void InputComponent::update(Entity* entity) {
 	handleKeypress();	
+
 	const int LATERAL_SPEED = 30;
     const int PROJECTILE_SPEED = TILESHEET_SIZE * SCALING;
+
 	if (moving_forward) {
         flip = SDL_FLIP_NONE;
         if (!cc->rightCollision) {

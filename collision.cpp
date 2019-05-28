@@ -23,8 +23,6 @@ void Collision::handleCollision(std::unordered_set<Entity*> entities) {
             a = a_e;
 
             a_c = &a->getComponent<ColliderComponent>(COLLIDER_COMPONENT);	
-            a_c->resetCollision();
-
             //Resolve x-axis collisions
             a->xpos = a->n_xpos;
             for (Entity* b_e: q->entities) {
@@ -83,6 +81,11 @@ void Collision::collisionTable(bool axis, SDL_Rect& intersection) {
                     if (bottom) {
                         a->getComponent<JumpingComponent>(JUMPING_COMPONENT).resetJump();
                     }
+                    break;
+                }
+                case ENEMY: {
+                    HealthComponent* hc = &a->getComponent<HealthComponent>(HEALTH_COMPONENT);    
+                    hc->receiveDamage(a, 5);
                     break;
                 }
             }

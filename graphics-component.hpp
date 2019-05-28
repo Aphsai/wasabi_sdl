@@ -12,9 +12,11 @@ class GraphicsComponent : public Component {
 		GraphicsComponent(SDL_Rect&);
 
         bool animation_complete = false;
+        int alpha = 255;
 		void draw(Entity*);
 		void addAnimation(int, SDL_Rect, int, int);
 		void setAnimation(int, SDL_RendererFlip);
+		void setAnimation(int);
 		void unsetAnimation();
 		void update(Entity*);
 

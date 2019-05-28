@@ -21,6 +21,7 @@ void Sushi::addAnimations() {
 	gc->addAnimation(JUMP, SDL_Rect { 21 * TILESHEET_SIZE, 1 * TILESHEET_SIZE, TILESHEET_SIZE, TILESHEET_SIZE }, 1, 1);
 	gc->addAnimation(LAND, SDL_Rect { 22 * TILESHEET_SIZE, 2 * TILESHEET_SIZE, TILESHEET_SIZE, TILESHEET_SIZE }, 2, 10);
     gc->addAnimation(IDLE, SDL_Rect { 19 * TILESHEET_SIZE, 3 * TILESHEET_SIZE, TILESHEET_SIZE, TILESHEET_SIZE }, 2, 10);
+    gc->addAnimation(HURT, SDL_Rect { 10 * TILESHEET_SIZE, 5 * TILESHEET_SIZE, TILESHEET_SIZE, TILESHEET_SIZE }, 5, 10);
 }
 
 void Sushi::init() {
@@ -30,7 +31,7 @@ void Sushi::init() {
 	addComponent<ColliderComponent>(COLLIDER_COMPONENT, PLAYER);
 	addComponent<JumpingComponent>(JUMPING_COMPONENT, jump_height);
     addComponent<CameraComponent>(CAMERA_COMPONENT);
-    addComponent<HealthComponent>(HEALTH_COMPONENT, 100);
+    addComponent<HealthComponent>(HEALTH_COMPONENT, 100, 30);
 	initComponents();
 }
 

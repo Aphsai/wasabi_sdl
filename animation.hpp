@@ -2,6 +2,7 @@
 #include <SDL2/SDL.h>
 
 struct Animation {
+
 	SDL_Rect src;
 	int index = 0;
 	int frames = 0;
@@ -12,4 +13,5 @@ struct Animation {
 		speed = s;
 		src = r;
 	}
+
 };
