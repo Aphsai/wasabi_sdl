@@ -1,7 +1,9 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "game.hpp"
+#include "defs.hpp"
 #include "health-component.hpp"
+#include "graphics-component.hpp"
 
 HealthComponent::HealthComponent(int h) {
     health_points = h;
@@ -11,7 +13,7 @@ HealthComponent::HealthComponent(int h) {
 void HealthComponent::receiveDamage(Entity* entity, int d) {
     std::cout << entity->tag << " CURRENT HP: " << health_points << std::endl;
     health_points -= d;
-    if (health_points <= 0) entity->mark_remove = true;
+    dead = health_points <= 0; 
 }
 
 void HealthComponent::restoreHealth(int r) {

@@ -59,7 +59,7 @@ void EntityManager::updateEntities() {
 
 void EntityManager::drawEntities() { 
 	for (Entity* entity : entities) {
-		if (entity != nullptr && entity->mark_active && !entity->mark_remove) {
+		if (entity != nullptr && entity->mark_active) {
 			entity->draw();
 		}
 	}

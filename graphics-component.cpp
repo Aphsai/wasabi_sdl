@@ -37,6 +37,7 @@ void GraphicsComponent::update(Entity* entity) {
 		frameDelay++;
 		if (frameDelay > currentAnimation->speed) {
 			currentAnimation->index = (currentAnimation->index + 1) % currentAnimation->frames;
+            animation_complete = currentAnimation->index == 0;
 			frameDelay = 0;
 		}
 	}

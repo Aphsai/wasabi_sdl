@@ -1,3 +1,4 @@
+#pragma once
 #include "ecs.hpp"
 
 class HealthComponent : public Component {
@@ -6,9 +7,9 @@ class HealthComponent : public Component {
         void receiveDamage(Entity* entity, int);
         void restoreHealth(int);
         void draw(Entity* entity);
+        bool dead = false;
 
     private:
         int health_points;
         int health_capacity;
-        bool dead = false;
 };

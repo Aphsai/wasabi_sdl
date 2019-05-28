@@ -98,6 +98,8 @@ void Collision::collisionTable(bool axis, SDL_Rect& intersection) {
                     break;
                 }
                 case ENEMY: {
+                    HealthComponent* hc = &b->getComponent<HealthComponent>(HEALTH_COMPONENT);
+                    hc->receiveDamage(b, 10);
                     a->mark_remove = true;
                     break;
                 }
@@ -110,10 +112,6 @@ void Collision::collisionTable(bool axis, SDL_Rect& intersection) {
                     determineDirection(intersection);
                     preventIntangibility(intersection);
                     break;
-                }
-                case PROJECTILE: {
-                    HealthComponent* hc = &a->getComponent<HealthComponent>(HEALTH_COMPONENT);
-                    hc->receiveDamage(a, 10);
                 }
             }
         }

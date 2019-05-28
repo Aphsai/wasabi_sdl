@@ -20,6 +20,7 @@ class Component {
 class Entity {
 	public:
 		std::vector<Component*> components = std::vector<Component*>(MAX_COMPONENTS, nullptr);
+
 		bool mark_active = true;
         bool mark_remove = false;
 
