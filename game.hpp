@@ -23,5 +23,5 @@ class Game {
 
 		SDL_Window *window;
 		SDL_Rect screen;
-	        Collision *c;
+	    Collision *c;
 };

@@ -11,7 +11,6 @@ void JumpingComponent::resetJump() {
 }
 
 void JumpingComponent::jump() {
-    
     pc->removeNormalForce();
 	pc->yvel = -jumpMagnitude;
 	isJumping = true;

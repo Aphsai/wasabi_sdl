@@ -14,4 +14,5 @@ class ColliderComponent : public Component {
 
 		ColliderComponent(int);
 		void update(Entity*);
+        void draw(Entity*);
 };

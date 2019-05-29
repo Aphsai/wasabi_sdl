@@ -1,4 +1,5 @@
 #include <iostream>
+#include "collision.hpp"
 #include "game.hpp"
 #include "map.hpp"
 #include "defs.hpp"
@@ -10,20 +11,19 @@
 #include "light.hpp"
 #include "tile.hpp"
 #include "entity-manager.hpp"
-#include "collision.hpp"
 
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 Entity* Game::camera;
 Entity* light;
 EntityManager* Game::manager = new EntityManager();
-
+    
 Game::Game() {
 	window = SDL_CreateWindow("Wasabi", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if (window == NULL) {
 		return;
 	}
-	Game::renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	Game::renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 	if (Game::renderer == NULL) {
 		return;
 	}
@@ -34,8 +34,8 @@ Game::Game() {
     Game::manager->addEntity(new Sushi(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE * 2));
     Game::manager->addEntity(new Enemy(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE * 2));
     Game::manager->addEntity(Game::camera);
-	Map::loadMap("assets/map.map");
     light = new LightTest(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE * 2);
+	Map::loadMap("assets/map.map");
 }
 
 Game::~Game() {
@@ -46,12 +46,11 @@ Game::~Game() {
 
 void Game::update() {
    	Game::manager->refreshEntities();
-	checkCollision();
    	Game::manager->updateEntities();
+	checkCollision();
 }
 void Game::draw() {
 	clearScreen();
-   	light->draw();
    	Game::manager->drawEntities();
 	SDL_RenderPresent(Game::renderer);
 }
@@ -66,6 +65,7 @@ void Game::clearScreen() {
 }
 
 void Game::gameLoop() {
+
 	bool run = true;
 
 	const int FPS = 60;
@@ -73,6 +73,7 @@ void Game::gameLoop() {
 
 	unsigned int frameStart;
 	int frameTime;
+    float avgFPS;
 	
 	while(run) {
 
@@ -88,4 +89,5 @@ void Game::gameLoop() {
 		if (frameDelay > frameTime) SDL_Delay(frameDelay - frameTime);
 
 	}
+
 }

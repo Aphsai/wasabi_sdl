@@ -12,8 +12,7 @@ HealthComponent::HealthComponent(int h, int i) {
 }
 
 void HealthComponent::receiveDamage(Entity* entity, int d) {
-    std::cout << entity->tag << " CURRENT HP: " << health_points << std::endl;
-    if (iframes == 0) {
+    if (iframes == 0 && !dead) {
         health_points -= d;
         dead = health_points <= 0; 
         iframes = iframe_capacity;

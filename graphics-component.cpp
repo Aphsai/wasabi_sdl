@@ -17,16 +17,19 @@ void GraphicsComponent::draw(Entity* entity) {
 }
 
 void GraphicsComponent::addAnimation(int name, SDL_Rect src, int f, int s) {
-	animation_map.emplace(name, new Animation(src, f , s));
+	animation_map[name] = new Animation(src, f , s);
 }
 
 void GraphicsComponent::setAnimation(int name, SDL_RendererFlip f) {
 	if (animation_map.find(name) != animation_map.end()) {
+        if (currentAnimation != nullptr && currentAnimation != animation_map[name]) {
+            animation_complete = false;
+            currentAnimation->index = 0;
+        }
 		currentAnimation = animation_map[name];
 	}
     flip = f;
 }
-
 
 void GraphicsComponent::setAnimation(int name) {
 	if (animation_map.find(name) != animation_map.end()) {
@@ -45,7 +48,7 @@ void GraphicsComponent::update(Entity* entity) {
 		frameDelay++;
 		if (frameDelay > currentAnimation->speed) {
 			currentAnimation->index = (currentAnimation->index + 1) % currentAnimation->frames;
-            animation_complete = currentAnimation->index == 0;
+            animation_complete = (currentAnimation->index == 0);
 			frameDelay = 0;
 		}
 	}

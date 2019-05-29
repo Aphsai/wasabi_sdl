@@ -21,8 +21,8 @@ void Collision::handleCollision(std::unordered_set<Entity*> entities) {
     for (QuadTree* q : leaves) {
         for (Entity* a_e : q->entities) {
             a = a_e;
-
             a_c = &a->getComponent<ColliderComponent>(COLLIDER_COMPONENT);	
+
             //Resolve x-axis collisions
             a->xpos = a->n_xpos;
             for (Entity* b_e: q->entities) {
@@ -54,7 +54,6 @@ void Collision::handleCollision(std::unordered_set<Entity*> entities) {
 
 void Collision::hasCollision(bool x_axis, std::unordered_map<int, std::unordered_set<int>>& collided_with) {
     SDL_Rect intersection;
-
     SDL_Rect a_collider = SDL_Rect { a->xpos, a->ypos, a->width, a->height };
     SDL_Rect b_collider = SDL_Rect { b->xpos, b->ypos, b->width, b->height };
 
@@ -76,10 +75,15 @@ void Collision::collisionTable(bool axis, SDL_Rect& intersection) {
         case PLAYER: {
             switch(b_c->type) {
                 case TERRAIN: {
+                    PhysicsComponent *pc = &a->getComponent<PhysicsComponent>(PHYSICS_COMPONENT);
                     determineDirection(intersection);
                     preventIntangibility(intersection);
                     if (bottom) {
-                        a->getComponent<JumpingComponent>(JUMPING_COMPONENT).resetJump();
+                        JumpingComponent *jc = &a->getComponent<JumpingComponent>(JUMPING_COMPONENT);
+                        if (!jc->isJumping) {
+                            pc->yvel = 0;
+                        }
+                        jc->resetJump();
                     }
                     break;
                 }
@@ -154,3 +158,4 @@ void Collision::preventIntangibility(SDL_Rect& intersection) {
         pc->applyNormalForce();
     }
 }
+

@@ -14,7 +14,7 @@ void EntityManager::addEntity(Entity* entity) {
 }
 
 void EntityManager::refreshEntities() {
-    for (auto it = entities.begin(); it != entities.end(); it++) {
+    for (auto it = entities.begin(); it != entities.end();) {
         if ((*it)->mark_remove == true) {
             for (int x = 0; x < component_groups.size(); x++) {
                 component_groups[x].erase(*it);
@@ -22,12 +22,13 @@ void EntityManager::refreshEntities() {
             delete (*it);
             it = entities.erase(it);
         } 
-	else {
+	    else {
             if (Game::camera->xpos + (*it)->xpos > SCREEN_WIDTH || Game::camera->ypos + (*it)->ypos > SCREEN_HEIGHT || Game::camera->ypos + (*it)->ypos + (*it)->width < 0 || Game::camera->xpos + (*it)->xpos + (*it)->width < 0) {
                 (*it)->mark_active = false;
             } else {
                 (*it)->mark_active = true;
             }
+            it++;
         }
     }
 }

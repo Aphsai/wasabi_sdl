@@ -5,7 +5,6 @@ Projectile::Projectile(int x, int y, float v) {
     n_xpos = xpos = x;
     n_ypos = ypos = y;
     velocity = v;
-
     generateTag();
     init();
 }
@@ -15,7 +14,6 @@ Projectile::Projectile(int x, int y, int p, float v) {
     n_ypos = ypos = y;
     parent = p;
     velocity = v;
-
     generateTag();
     init();
 }

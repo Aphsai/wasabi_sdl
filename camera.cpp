@@ -16,6 +16,7 @@ void Camera::priority_update() {
     average_xpos /= total_components;
     average_ypos /= total_components;
 
+
     xpos += SMOOTH * ((SCREEN_WIDTH / 2 - average_xpos) - xpos);
     ypos += SMOOTH * ((SCREEN_HEIGHT / 2 - average_ypos) - ypos);
 

@@ -25,21 +25,12 @@ void Enemy::init() {
     addComponent<ColliderComponent>(COLLIDER_COMPONENT, ENEMY);
     addComponent<HealthComponent>(HEALTH_COMPONENT, 30, 10);
     addAnimations();
-    getComponent<PhysicsComponent>(PHYSICS_COMPONENT).xvel = 20;
     initComponents();
 }
 
 void Enemy::update() {
-    if (fabs(xpos - original_x) > 3 * TILESHEET_SIZE) {
-        getComponent<PhysicsComponent>(PHYSICS_COMPONENT).xvel *= -1;
-        if (getComponent<PhysicsComponent>(PHYSICS_COMPONENT).xvel < 0) {
-            getComponent<GraphicsComponent>(GRAPHICS_COMPONENT).setAnimation(WALK, SDL_FLIP_NONE);
-        } else {
-            getComponent<GraphicsComponent>(GRAPHICS_COMPONENT).setAnimation(WALK, SDL_FLIP_HORIZONTAL);
-        }
-    }
+    GraphicsComponent* gc = &getComponent<GraphicsComponent>(GRAPHICS_COMPONENT);
     if (getComponent<HealthComponent>(HEALTH_COMPONENT).dead) {
-        GraphicsComponent* gc = &getComponent<GraphicsComponent>(GRAPHICS_COMPONENT);
         gc->setAnimation(PERISH);
         if (gc->animation_complete) {
             mark_remove = true;

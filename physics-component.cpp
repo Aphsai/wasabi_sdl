@@ -16,6 +16,8 @@ void PhysicsComponent::update(Entity* entity) {
 
     yvel += yaccel * TIMESTEP;
     xvel += xaccel * TIMESTEP;
+
+    yvel = fmin(yvel, TERMINAL_VELOCITY);
     removeNormalForce();
 }
 
@@ -24,6 +26,5 @@ void PhysicsComponent::removeNormalForce() {
 }
 
 void PhysicsComponent::applyNormalForce() {
-    yvel = 0;
     yaccel = GRAVITY + NORMAL_FORCE;
 }
