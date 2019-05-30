@@ -24,7 +24,7 @@ void GraphicsComponent::setAnimation(int name, SDL_RendererFlip f) {
 	if (animation_map.find(name) != animation_map.end()) {
         if (currentAnimation != nullptr && currentAnimation != animation_map[name]) {
             animation_complete = false;
-            currentAnimation->index = 0;
+            frameIndex = 0;
         }
 		currentAnimation = animation_map[name];
 	}
@@ -44,11 +44,11 @@ void GraphicsComponent::unsetAnimation() {
 void GraphicsComponent::update(Entity* entity) {
 	if (currentAnimation != nullptr) {
 		src = currentAnimation->src;
-		src.x += src.w * currentAnimation->index;
+		src.x += src.w * frameIndex;
 		frameDelay++;
 		if (frameDelay > currentAnimation->speed) {
-			currentAnimation->index = (currentAnimation->index + 1) % currentAnimation->frames;
-            animation_complete = (currentAnimation->index == 0);
+			frameIndex = (frameIndex + 1) % currentAnimation->frames;
+            animation_complete = (frameIndex == 0);
 			frameDelay = 0;
 		}
 	}

@@ -64,16 +64,12 @@ void InputComponent::update(Entity* entity) {
     const int PROJECTILE_SPEED = TILESHEET_SIZE * SCALING;
 	if (moving_forward) {
         flip = SDL_FLIP_NONE;
-        if (!cc->rightCollision) {
-		    pc->xvel = LATERAL_SPEED;
-        }
+		pc->xvel = LATERAL_SPEED;
         gc->setAnimation(WALK, flip);
 	}
     else if (moving_backward)  {
         flip = SDL_FLIP_HORIZONTAL;
-        if (!cc->leftCollision) {
-		    pc->xvel = -LATERAL_SPEED;
-        }
+	    pc->xvel = -LATERAL_SPEED;
         gc->setAnimation(WALK, flip);
         
 	}

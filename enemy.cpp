@@ -2,11 +2,12 @@
 #include "components.hpp"
 #include "defs.hpp"
 
-Enemy::Enemy(int x, int y) {
-    original_x = n_xpos = xpos = x;
-    original_y = n_ypos = ypos = y;
+Enemy::Enemy(int x, int y, Entity* p) {
+    n_xpos = xpos = x;
+    n_ypos = ypos = y;
     width = TILESHEET_SIZE * SCALING;
     height = TILESHEET_SIZE * SCALING;
+    player = p;
 
     generateTag();
     init();
@@ -34,6 +35,11 @@ void Enemy::update() {
         gc->setAnimation(PERISH);
         if (gc->animation_complete) {
             mark_remove = true;
+        }
+    } else {
+        if ((player->xpos - xpos) * (player->xpos - xpos) + (player->ypos - ypos) * (player->ypos - ypos) < 10000) {
+            PhysicsComponent *pc = &getComponent<PhysicsComponent>(PHYSICS_COMPONENT);
+            pc->xvel = player->xpos - xpos;
         }
     }
     updateComponents();

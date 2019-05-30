@@ -2,8 +2,8 @@
 
 class Enemy : public Entity {
     public:
-        int original_x, original_y;
-        Enemy(int, int);
+        Entity* player;
+        Enemy(int, int, Entity*);
         void addAnimations();
         void init();
         void update();

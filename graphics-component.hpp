@@ -25,4 +25,5 @@ class GraphicsComponent : public Component {
 		Animation* currentAnimation;
 		SDL_Rect src;
 		int frameDelay = 0;
+        int frameIndex = 0;
 };	
