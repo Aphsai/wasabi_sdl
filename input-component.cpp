@@ -7,12 +7,14 @@
 #include "jumping-component.hpp"
 #include "graphics-component.hpp"
 #include "collider-component.hpp"
+#include "health-component.hpp"
 
 void InputComponent::init(Entity* entity) {
 	pc = &entity->getComponent<PhysicsComponent>(PHYSICS_COMPONENT);
 	gc = &entity->getComponent<GraphicsComponent>(GRAPHICS_COMPONENT);
 	jc = &entity->getComponent<JumpingComponent>(JUMPING_COMPONENT);
     cc = &entity->getComponent<ColliderComponent>(COLLIDER_COMPONENT);
+    hc = &entity->getComponent<HealthComponent>(HEALTH_COMPONENT);
 }
 
 void InputComponent::handleKeypress() {
@@ -30,6 +32,9 @@ void InputComponent::handleKeypress() {
 			case SDLK_s:
 				looking_down = true;
 				break;
+            case SDLK_h:
+                attack = true;
+                break;
             case SDLK_SPACE:
                 fire = true;
                 break;
@@ -57,32 +62,25 @@ void InputComponent::update(Entity* entity) {
 	handleKeypress();
 	const int LATERAL_SPEED = 30;
     const int PROJECTILE_SPEED = TILESHEET_SIZE * SCALING;
-
 	if (moving_forward) {
         flip = SDL_FLIP_NONE;
         if (!cc->rightCollision) {
 		    pc->xvel = LATERAL_SPEED;
         }
-        if (!jc->isJumping) {
-            gc->setAnimation(WALK, flip);
-        }
+        gc->setAnimation(WALK, flip);
 	}
-	else if (moving_backward)  {
+    else if (moving_backward)  {
         flip = SDL_FLIP_HORIZONTAL;
         if (!cc->leftCollision) {
 		    pc->xvel = -LATERAL_SPEED;
         }
-        if (!jc->isJumping) {
-            gc->setAnimation(WALK, flip);
-        }
+        gc->setAnimation(WALK, flip);
+        
 	}
 	else {
 		pc->xvel = 0;
-        if (!jc->isJumping) {
-            gc->setAnimation(IDLE, flip);
-        }
+        gc->setAnimation(IDLE, flip);
 	}
-
     if (fire) {
         float velocity = PROJECTILE_SPEED;
         if (flip == SDL_FLIP_HORIZONTAL) {
@@ -90,12 +88,23 @@ void InputComponent::update(Entity* entity) {
         }
         fire = false;
         Game::manager->addEntity(new Projectile(entity->xpos, entity->ypos, entity->tag, velocity));
+    } 
+
+    if (attack) {
+       attack = false;
     }
 
 	if (jumping) {
-        gc->setAnimation(JUMP, flip);
         if (!jc->isJumping) {
 		    jc->jump();
         }
 	}
+
+    if(jc->isJumping) {
+        gc->setAnimation(JUMP);
+    }
+    
+    if (hc->isHurt) {
+        gc->setAnimation(HURT);
+    }
 }

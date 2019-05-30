@@ -16,8 +16,6 @@ void HealthComponent::receiveDamage(Entity* entity, int d) {
         health_points -= d;
         dead = health_points <= 0; 
         iframes = iframe_capacity;
-        entity->getComponent<GraphicsComponent>(GRAPHICS_COMPONENT).alpha = 120;
-        entity->getComponent<GraphicsComponent>(GRAPHICS_COMPONENT).setAnimation(HURT);
     }
 }
 
@@ -27,9 +25,10 @@ void HealthComponent::restoreHealth(int r) {
 }
 
 void HealthComponent::update(Entity* entity) {
+    isHurt = false;
     if (iframes > 0) {
+        isHurt = true;
         iframes--;
-        entity->getComponent<GraphicsComponent>(GRAPHICS_COMPONENT).alpha = 120;
     }
 }
 
