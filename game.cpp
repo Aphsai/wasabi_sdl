@@ -29,11 +29,11 @@ Game::Game() {
 	}
 	screen = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
     c = new Collision();
-	TextureManager::loadTexture("assets/Tilesheet/test.png");
+	TextureManager::loadTexture("assets/Tilesheet/elisa.png");
     camera = new Camera();
     Entity* sushi = new Sushi(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE * 2);
     Game::manager->addEntity(sushi);
-    Game::manager->addEntity(new Enemy(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE * 2, sushi));
+    //Game::manager->addEntity(new Enemy(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE * 2, sushi));
     Game::manager->addEntity(Game::camera);
     light = new LightTest(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE * 2);
 	Map::loadMap("assets/map.map");

@@ -5,8 +5,10 @@
 Enemy::Enemy(int x, int y, Entity* p) {
     n_xpos = xpos = x;
     n_ypos = ypos = y;
-    width = TILESHEET_SIZE * SCALING;
-    height = TILESHEET_SIZE * SCALING;
+    //width = TILESHEET_SIZE * SCALING;
+    //height = TILESHEET_SIZE * SCALING;
+    width = 23;
+    height = 12;
     player = p;
 
     generateTag();
@@ -16,8 +18,8 @@ Enemy::Enemy(int x, int y, Entity* p) {
 
 void Enemy::addAnimations() {
     GraphicsComponent* gc = &getComponent<GraphicsComponent>(GRAPHICS_COMPONENT);
-    gc->addAnimation(WALK, SDL_Rect { 20 * TILESHEET_SIZE, 12 * TILESHEET_SIZE, TILESHEET_SIZE, TILESHEET_SIZE }, 2, 10);
-    gc->addAnimation(PERISH, SDL_Rect { 0 * TILESHEET_SIZE, 13 * TILESHEET_SIZE, TILESHEET_SIZE, TILESHEET_SIZE }, 10, 10);
+    gc->addAnimation(WALK, SDL_Rect { 15 * TILESHEET_SIZE, 0 * TILESHEET_SIZE, TILESHEET_SIZE, TILESHEET_SIZE }, 1, 10);
+    gc->addAnimation(PERISH, SDL_Rect { 15 * TILESHEET_SIZE, 0 * TILESHEET_SIZE, TILESHEET_SIZE, TILESHEET_SIZE }, 1, 10);
 }
 
 void Enemy::init() {
@@ -40,6 +42,7 @@ void Enemy::update() {
         if ((player->xpos - xpos) * (player->xpos - xpos) + (player->ypos - ypos) * (player->ypos - ypos) < 10000) {
             PhysicsComponent *pc = &getComponent<PhysicsComponent>(PHYSICS_COMPONENT);
             pc->xvel = player->xpos - xpos;
+            gc->setAnimation(WALK);
         }
     }
     updateComponents();

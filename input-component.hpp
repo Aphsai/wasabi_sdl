@@ -3,11 +3,6 @@
 #include <SDL2/SDL.h>
 #include "ecs.hpp"
 
-class PhysicsComponent;
-class GraphicsComponent;
-class JumpingComponent;
-class ColliderComponent;
-class HealthComponent;
 
 class InputComponent : public Component {
 	public:
@@ -19,15 +14,5 @@ class InputComponent : public Component {
 		bool inJump = false;
         bool attack = false;
 
-		void init(Entity* entity);
-		void handleKeypress();
 		void update(Entity* entity);
-			
-	private:
-        SDL_RendererFlip flip;
-		PhysicsComponent* pc;
-		GraphicsComponent* gc;
-		JumpingComponent* jc;
-        ColliderComponent* cc;
-        HealthComponent* hc;
 };

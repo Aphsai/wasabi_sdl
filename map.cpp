@@ -16,7 +16,7 @@ void Map::loadMap(const char* map_file) {
             for (int y = 0; y < MAP_SIZE; y++) {
                 fmap >> a;
                 if (a == 1) {
-                    t = new Tile( 2 * TILESHEET_SIZE, 0 * TILESHEET_SIZE, y * TILESHEET_SIZE * SCALING, x * TILESHEET_SIZE * SCALING);
+                    t = new Tile( 14 * TILESHEET_SIZE, 0 * TILESHEET_SIZE, y * TILESHEET_SIZE * SCALING, x * TILESHEET_SIZE * SCALING);
                     tmp.push_back(t);
                     Game::manager->addEntity(t);
 		}

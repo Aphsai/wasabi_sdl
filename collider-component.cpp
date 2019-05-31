@@ -6,8 +6,14 @@
 
 //Collision ColliderComponent::c;
 
+ColliderComponent::ColliderComponent(int t, int x_off, int y_off) {
+    type = t;
+    x_offset = x_off;
+    y_offset = y_off;
+}
+
 ColliderComponent::ColliderComponent(int t) {
-	type = t;
+    type = t;
 }
 
 void ColliderComponent::draw(Entity* entity) {
@@ -16,6 +22,17 @@ void ColliderComponent::draw(Entity* entity) {
     SDL_RenderDrawRect(Game::renderer, &ent);
 }
 
+void ColliderComponent::init(Entity* entity) {
+    collider.x = entity->xpos + x_offset;
+    collider.y = entity->ypos + y_offset;
+    collider.w = entity->width - x_offset;
+    collider.h = entity->height - y_offset;
+}
+
 void ColliderComponent::update(Entity *entity) {
     leftCollision = rightCollision = topCollision = bottomCollision = false;
+    collider.x = entity->xpos + x_offset;
+    collider.y = entity->ypos + y_offset;
+    collider.w = entity->width - x_offset;
+    collider.h = entity->height - y_offset;
 }

@@ -1,7 +1,6 @@
 #include <iostream>
 #include "game.hpp"
 #include "graphics-component.hpp"
-//#include "collider-component.hpp"
 #include "texture-manager.hpp"
 #include "defs.hpp"
 
@@ -20,12 +19,17 @@ void GraphicsComponent::addAnimation(int name, SDL_Rect src, int f, int s) {
 	animation_map[name] = new Animation(src, f , s);
 }
 
+//void GraphicsComponent::addAnimation(int name, SDL_Rect src, int f, int s, int x_off, y_off) {
+//	animation_map[name] = new Animation(src, f , s);
+//}
+
 void GraphicsComponent::setAnimation(int name, SDL_RendererFlip f) {
 	if (animation_map.find(name) != animation_map.end()) {
         if (currentAnimation != nullptr && currentAnimation != animation_map[name]) {
             animation_complete = false;
             frameIndex = 0;
         }
+        animationIndex = name;
 		currentAnimation = animation_map[name];
 	}
     flip = f;
@@ -33,6 +37,11 @@ void GraphicsComponent::setAnimation(int name, SDL_RendererFlip f) {
 
 void GraphicsComponent::setAnimation(int name) {
 	if (animation_map.find(name) != animation_map.end()) {
+        if (currentAnimation != nullptr && currentAnimation != animation_map[name]) {
+            animation_complete = false;
+            frameIndex = 0;
+        }
+        animationIndex = name;
 		currentAnimation = animation_map[name];
 	}
 }
@@ -44,7 +53,7 @@ void GraphicsComponent::unsetAnimation() {
 void GraphicsComponent::update(Entity* entity) {
 	if (currentAnimation != nullptr) {
 		src = currentAnimation->src;
-		src.x += src.w * frameIndex;
+		src.x += TILESHEET_X * frameIndex;
 		frameDelay++;
 		if (frameDelay > currentAnimation->speed) {
 			frameIndex = (frameIndex + 1) % currentAnimation->frames;

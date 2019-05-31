@@ -22,7 +22,7 @@ void Projectile::init() {
     width = TILESHEET_SIZE * SCALING;
     height = TILESHEET_SIZE * SCALING;
     addComponent<ColliderComponent>(COLLIDER_COMPONENT, PROJECTILE);
-    addComponent<GraphicsComponent>(GRAPHICS_COMPONENT, SDL_Rect { 16 * TILESHEET_SIZE, 3 * TILESHEET_SIZE, TILESHEET_SIZE, TILESHEET_SIZE});
+    addComponent<GraphicsComponent>(GRAPHICS_COMPONENT, SDL_Rect { 13 * TILESHEET_SIZE, 0 * TILESHEET_SIZE, TILESHEET_SIZE, TILESHEET_SIZE});
     addComponent<PhysicsComponent>(PHYSICS_COMPONENT);
     getComponent<PhysicsComponent>(PHYSICS_COMPONENT).xvel = velocity;
     getComponent<PhysicsComponent>(PHYSICS_COMPONENT).yvel = 0;
