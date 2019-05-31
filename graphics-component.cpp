@@ -19,9 +19,11 @@ void GraphicsComponent::addAnimation(int name, SDL_Rect src, int f, int s) {
 	animation_map[name] = new Animation(src, f , s);
 }
 
-//void GraphicsComponent::addAnimation(int name, SDL_Rect src, int f, int s, int x_off, y_off) {
-//	animation_map[name] = new Animation(src, f , s);
-//}
+void GraphicsComponent::addAnimation(int name, SDL_Rect src, int f, int s, int x_off, int y_off) {
+	animation_map[name] = new Animation(src, f , s);
+    x_offset = x_off;
+    y_offset = y_off;
+}
 
 void GraphicsComponent::setAnimation(int name, SDL_RendererFlip f) {
 	if (animation_map.find(name) != animation_map.end()) {

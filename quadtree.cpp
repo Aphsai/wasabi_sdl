@@ -21,7 +21,6 @@ QuadTree::QuadTree(short x, short y, short w, short h, short d) {
 }
 
 bool QuadTree::insert(Entity* entity) {
-
     //Out of bounds, not part of this quadtree
     if (entity->xpos + entity->width < xpos || entity->xpos > xpos + width || entity->ypos + entity->height < ypos || entity->ypos > ypos + height) {
         //std::cout << entity->tag << " was out of bounds." << std::endl;

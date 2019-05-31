@@ -18,6 +18,7 @@ void Collision::handleCollision(std::unordered_set<Entity*> entities) {
     quadtree->getLeaves(leaves);
 
     std::unordered_map<int, std::unordered_set<int>> collided_with;
+
     for (QuadTree* q : leaves) {
         for (Entity* a_e : q->entities) {
             a = a_e;
@@ -70,7 +71,6 @@ void Collision::collisionTable(bool axis, SDL_Rect& intersection) {
 
     horizontal = axis;
     left = right = top = bottom = false;
-
     switch (a_c->type) {
         case PLAYER: {
             switch(b_c->type) {
@@ -93,8 +93,18 @@ void Collision::collisionTable(bool axis, SDL_Rect& intersection) {
                     break;
                 }
             }
+            break;
         }
-        break;
+        case SWORD: {
+            switch(b_c->type) {
+                case ENEMY: {
+                    HealthComponent* hc = &b->getComponent<HealthComponent>(HEALTH_COMPONENT);
+                    hc->receiveDamage(b, 10);
+                    break;
+                }
+            }
+            break;
+        }
         case PROJECTILE: {
             switch(b_c->type) {
                 case TERRAIN: {
@@ -111,8 +121,8 @@ void Collision::collisionTable(bool axis, SDL_Rect& intersection) {
                     break;
                 }
             }
+            break;
         }
-        break;
         case ENEMY: {
             switch(b_c->type) {
                 case TERRAIN: {

@@ -2,7 +2,9 @@
 #include "sushi.hpp"
 #include "defs.hpp"
 #include "game.hpp"
+
 #include "projectile.hpp"
+#include "sword.hpp"
 
 #include "physics-component.hpp"
 #include "graphics-component.hpp"
@@ -14,11 +16,16 @@
 Sushi::Sushi(int x, int y) {
 	n_xpos = xpos = x;
 	n_ypos = ypos = y;
+    
+    // no magic numbers please
     jump_height = 50;
-    width = 31;
-    height = 41;
-    x_offset = 26;
+    width = 48;
+    height = 45;
+    x_offset = 20;
     y_offset = 5;
+
+    sword = nullptr;
+
     flip = SDL_FLIP_NONE;
 	generateTag();
 	init();
@@ -27,7 +34,7 @@ Sushi::Sushi(int x, int y) {
 }
 
 void Sushi::addAnimations() {
-	gc->addAnimation(WALK, SDL_Rect { 6 * TILESHEET_X, 0 * TILESHEET_Y, width + x_offset, height }, 8, 5);
+	gc->addAnimation(WALK, SDL_Rect { 6 * TILESHEET_X, 0 * TILESHEET_Y, width + x_offset, height }, 8, 5, x_offset, y_offset);
 	gc->addAnimation(JUMP, SDL_Rect { 1  * TILESHEET_X, 0 * TILESHEET_Y, width + x_offset, height }, 2, 10);
     gc->addAnimation(IDLE, SDL_Rect { 6 * TILESHEET_X, 0 * TILESHEET_Y, width + x_offset, height }, 1, 10);
     gc->addAnimation(HURT, SDL_Rect { 1 * TILESHEET_X, 0 * TILESHEET_Y, width, height }, 2, 10);
@@ -39,8 +46,7 @@ void Sushi::init() {
 	addComponent<GraphicsComponent>(GRAPHICS_COMPONENT, SDL_Rect { 0 * TILESHEET_SIZE, 0 * TILESHEET_SIZE, TILESHEET_SIZE, TILESHEET_SIZE });
 	addComponent<PhysicsComponent>(PHYSICS_COMPONENT);
 	addComponent<ColliderComponent>(COLLIDER_COMPONENT, PLAYER, x_offset, y_offset);
-	addComponent<JumpingComponent>(JUMPING_COMPONENT, jump_height);
-    addComponent<CameraComponent>(CAMERA_COMPONENT);
+	addComponent<JumpingComponent>(JUMPING_COMPONENT, jump_height); addComponent<CameraComponent>(CAMERA_COMPONENT);
     addComponent<HealthComponent>(HEALTH_COMPONENT, 100, 30);
 
 	initComponents();
@@ -80,6 +86,8 @@ void Sushi::update() {
 
     if (gc->animationIndex == ATTACK && gc->animation_complete) {
         ic->attack = false;
+        sword->mark_remove = true;
+        sword = nullptr;
     }
 
 	if (ic->jumping && !ic->attack) {
@@ -91,14 +99,17 @@ void Sushi::update() {
     if(jc->isJumping) {
         animation = JUMP;
     }
-
-    if (ic->attack) {
-       animation = ATTACK;
-    } 
     
     if (hc->isHurt) {
         animation = HURT;
     }
+
+    if (ic->attack) {
+        if (sword == nullptr) {
+            Game::manager->addEntity(sword = new Sword(xpos + x_offset + width / 2, ypos + y_offset + 10, tag, 36, 20));
+        }
+       animation = ATTACK;
+    } 
 
     gc->setAnimation(animation, flip);
 }

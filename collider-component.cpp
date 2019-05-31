@@ -18,8 +18,8 @@ ColliderComponent::ColliderComponent(int t) {
 
 void ColliderComponent::draw(Entity* entity) {
     SDL_SetRenderDrawColor(Game::renderer, 255, 0, 0, 255);
-    SDL_Rect ent = {Game::camera->xpos + entity->xpos, Game::camera->ypos + entity->ypos, entity->width, entity->height };
-    SDL_RenderDrawRect(Game::renderer, &ent);
+    SDL_Rect e = {Game::camera->xpos + collider.x, Game::camera->ypos + collider.y, collider.w, collider.h};
+    SDL_RenderDrawRect(Game::renderer, &e);
 }
 
 void ColliderComponent::init(Entity* entity) {

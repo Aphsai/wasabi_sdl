@@ -7,6 +7,7 @@ class JumpingComponent;
 class ColliderComponent;
 class HealthComponent;
 class InputComponent;
+class Sword;
 
 class Sushi : public Entity {
 	public:
@@ -26,6 +27,8 @@ class Sushi : public Entity {
         ColliderComponent* cc;
         HealthComponent* hc;
         InputComponent* ic;
+        Sword* sword;
+
         SDL_RendererFlip flip;
 
 	    const int LATERAL_SPEED = 30;
