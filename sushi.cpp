@@ -18,11 +18,11 @@ Sushi::Sushi(int x, int y) {
 	n_ypos = ypos = y;
     
     // no magic numbers please
-    jump_height = 50;
-    width = 48;
-    height = 45;
-    x_offset = 20;
-    y_offset = 5;
+    jump_height = JUMP_HEIGHT;
+    width = WIDTH;
+    height = HEIGHT;
+    x_offset = X_OFFSET;
+    y_offset = Y_OFFSET;
 
     sword = nullptr;
 
@@ -30,7 +30,6 @@ Sushi::Sushi(int x, int y) {
 	generateTag();
 	init();
 	addAnimations();
-
 }
 
 void Sushi::addAnimations() {

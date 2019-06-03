@@ -8,6 +8,7 @@ Sword::Sword(int x, int y, int p, int w, int h) {
     parent = p;
     width = w;
     height = h;
+    generateTag();
     init();
 }
 

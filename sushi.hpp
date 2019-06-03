@@ -33,4 +33,9 @@ class Sushi : public Entity {
 
 	    const int LATERAL_SPEED = 30;
         const int PROJECTILE_SPEED = 30;
+        const int JUMP_HEIGHT = 50;
+        const int WIDTH = 50;
+        const int HEIGHT = 45;
+        const int X_OFFSET = 20;
+        const int Y_OFFSET = 5;
 };

@@ -26,7 +26,7 @@ void Enemy::init() {
     addComponent<GraphicsComponent>(GRAPHICS_COMPONENT, SDL_Rect { 20 * TILESHEET_SIZE, 12 * TILESHEET_SIZE, TILESHEET_SIZE, TILESHEET_SIZE });
     addComponent<PhysicsComponent>(PHYSICS_COMPONENT);
     addComponent<ColliderComponent>(COLLIDER_COMPONENT, ENEMY);
-    addComponent<HealthComponent>(HEALTH_COMPONENT, 30, 10);
+    addComponent<HealthComponent>(HEALTH_COMPONENT, 40, 40);
     addAnimations();
     initComponents();
 }
