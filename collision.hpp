@@ -29,5 +29,5 @@ class Collision {
         bool right = false;
         bool top = false;
         bool bottom = false;
-    	bool horizontal;
+    	bool horizontal = false;
 };

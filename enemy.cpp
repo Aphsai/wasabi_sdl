@@ -39,11 +39,11 @@ void Enemy::update() {
             mark_remove = true;
         }
     } else {
-        //if ((player->xpos - xpos) * (player->xpos - xpos) + (player->ypos - ypos) * (player->ypos - ypos) < 10000) {
-        //    PhysicsComponent *pc = &getComponent<PhysicsComponent>(PHYSICS_COMPONENT);
-        //    pc->xvel = player->xpos - xpos;
-        //    gc->setAnimation(WALK);
-        //}
+        if ((player->xpos - xpos) * (player->xpos - xpos) + (player->ypos - ypos) * (player->ypos - ypos) < 10000) {
+            PhysicsComponent *pc = &getComponent<PhysicsComponent>(PHYSICS_COMPONENT);
+            pc->xvel = player->xpos - xpos;
+            gc->setAnimation(WALK);
+        }
     }
     updateComponents();
 }

@@ -8,14 +8,13 @@
 #include "sushi.hpp"
 #include "enemy.hpp"
 #include "camera.hpp"
-#include "light.hpp"
 #include "tile.hpp"
+#include "bird.hpp"
 #include "entity-manager.hpp"
 
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
 Entity* Game::camera;
-Entity* light;
 EntityManager* Game::manager = new EntityManager();
     
 Game::Game() {
@@ -33,13 +32,15 @@ Game::Game() {
     camera = new Camera();
     Entity* sushi = new Sushi(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE * 2);
     Game::manager->addEntity(sushi);
-    Game::manager->addEntity(new Enemy(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE * 2, sushi));
+    //Game::manager->addEntity(new Enemy(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE * 2, sushi));
+    Game::manager->addEntity(new Bird(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE * 2, sushi));
     Game::manager->addEntity(Game::camera);
-    light = new LightTest(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - TILESHEET_SIZE * 2);
 	Map::loadMap("assets/map.map");
 }
 
 Game::~Game() {
+    delete Game::manager;
+    delete c;
 	SDL_DestroyRenderer(Game::renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();

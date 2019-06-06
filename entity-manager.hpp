@@ -8,6 +8,7 @@ class Entity;
 class EntityManager {
 	public: 
 		EntityManager();
+        ~EntityManager();
 		void addEntity(Entity*);
         void refreshEntities();
 		void drawEntities();

@@ -17,7 +17,6 @@ Sushi::Sushi(int x, int y) {
 	n_xpos = xpos = x;
 	n_ypos = ypos = y;
     
-    // no magic numbers please
     jump_height = JUMP_HEIGHT;
     width = WIDTH;
     height = HEIGHT;
@@ -118,6 +117,9 @@ void Sushi::draw() {
 }
 
 Sushi::~Sushi() {
+    for (Component* c : components) {
+        delete c;
+    }
 	components.clear();
 }
 

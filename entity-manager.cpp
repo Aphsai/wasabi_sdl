@@ -9,6 +9,16 @@ EntityManager::EntityManager() {
 	entities = std::unordered_set<Entity*>();
 }
 
+EntityManager::~EntityManager() {
+    for (auto it = entities.begin(); it != entities.end();) {
+        for (int x = 0; x < component_groups.size(); x++) {
+            component_groups[x].erase(*it);
+        }
+        delete (*it);
+        it = entities.erase(it);
+    }
+}
+
 void EntityManager::addEntity(Entity* entity) {
 	entities.insert(entity);
 }
