@@ -32,11 +32,11 @@ Sushi::Sushi(int x, int y) {
 }
 
 void Sushi::addAnimations() {
-	gc->addAnimation(WALK, SDL_Rect { 6 * TILESHEET_X, 0 * TILESHEET_Y, width + x_offset, height }, 8, 5, x_offset, y_offset);
+	gc->addAnimation(WALK, SDL_Rect { 0 * TILESHEET_X, 1 * TILESHEET_Y, width + x_offset, height }, 12, 5);
 	gc->addAnimation(JUMP, SDL_Rect { 1  * TILESHEET_X, 0 * TILESHEET_Y, width + x_offset, height }, 2, 10);
-    gc->addAnimation(IDLE, SDL_Rect { 6 * TILESHEET_X, 0 * TILESHEET_Y, width + x_offset, height }, 1, 10);
-    gc->addAnimation(HURT, SDL_Rect { 1 * TILESHEET_X, 0 * TILESHEET_Y, width, height }, 2, 10);
-    gc->addAnimation(ATTACK, SDL_Rect { 0 * TILESHEET_X, 0 * TILESHEET_Y, width + x_offset, height }, 6, 3);
+    gc->addAnimation(IDLE, SDL_Rect { 0 * TILESHEET_X, 0 * TILESHEET_Y, width + x_offset, height }, 1, 10);
+    //gc->addAnimation(HURT, SDL_Rect { 1 * TILESHEET_X, 0 * TILESHEET_Y, width, height }, 2, 10);
+    //gc->addAnimation(ATTACK, SDL_Rect { 0 * TILESHEET_X, 0 * TILESHEET_Y, width + x_offset, height }, 6, 3);
 }
 
 void Sushi::init() {

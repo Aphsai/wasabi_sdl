@@ -19,6 +19,11 @@ void GraphicsComponent::addAnimation(int name, SDL_Rect src, int f, int s) {
 	animation_map[name] = new Animation(src, f , s);
 }
 
+void GraphicsComponent::addAnimation(int name, SDL_Rect src, int f, int s, int t) {
+    animation_map[name] = new Animation(src, f, s);
+    animation_map[name]->type = t;
+}
+
 void GraphicsComponent::addAnimation(int name, SDL_Rect src, int f, int s, int x_off, int y_off) {
 	animation_map[name] = new Animation(src, f , s);
     x_offset = x_off;
@@ -55,10 +60,18 @@ void GraphicsComponent::unsetAnimation() {
 void GraphicsComponent::update(Entity* entity) {
 	if (currentAnimation != nullptr) {
 		src = currentAnimation->src;
-		src.x += TILESHEET_X * frameIndex;
+		src.x += TILESHEET_SIZE * frameIndex;
 		frameDelay++;
 		if (frameDelay > currentAnimation->speed) {
-			frameIndex = (frameIndex + 1) % currentAnimation->frames;
+            if (currentAnimation->type == LINEAR) {
+			    frameIndex = (frameIndex + 1) % currentAnimation->frames;
+            }
+            else if (currentAnimation->type == BOUNCE) {
+                frameIndex = frameIndex + 1 - bounce * 2;
+                std::cout << bounce << std::endl;
+                if (frameIndex == (currentAnimation->frames - 1)) bounce = true;
+                else if (frameIndex == 0) bounce = false;
+            }
             animation_complete = (frameIndex == 0);
 			frameDelay = 0;
 		}

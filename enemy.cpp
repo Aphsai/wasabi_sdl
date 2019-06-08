@@ -18,8 +18,8 @@ Enemy::Enemy(int x, int y, Entity* p) {
 
 void Enemy::addAnimations() {
     GraphicsComponent* gc = &getComponent<GraphicsComponent>(GRAPHICS_COMPONENT);
-    gc->addAnimation(WALK, SDL_Rect { 15 * TILESHEET_SIZE, 0 * TILESHEET_SIZE, TILESHEET_SIZE, TILESHEET_SIZE }, 1, 10);
-    gc->addAnimation(PERISH, SDL_Rect { 15 * TILESHEET_SIZE, 0 * TILESHEET_SIZE, TILESHEET_SIZE, TILESHEET_SIZE }, 1, 10);
+    //gc->addAnimation(WALK, SDL_Rect { 15 * TILESHEET_SIZE, 0 * TILESHEET_SIZE, TILESHEET_SIZE, TILESHEET_SIZE }, 1, 10);
+    //gc->addAnimation(PERISH, SDL_Rect { 15 * TILESHEET_SIZE, 0 * TILESHEET_SIZE, TILESHEET_SIZE, TILESHEET_SIZE }, 1, 10);
 }
 
 void Enemy::init() {
