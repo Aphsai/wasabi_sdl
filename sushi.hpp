@@ -38,4 +38,5 @@ class Sushi : public Entity {
         const int HEIGHT = 64;
         const int X_OFFSET = 0;
         const int Y_OFFSET = 0;
+        bool is_grabbing_wall = false;
 };

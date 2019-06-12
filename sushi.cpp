@@ -35,8 +35,7 @@ void Sushi::addAnimations() {
 	gc->addAnimation(WALK, SDL_Rect { 0 * TILESHEET_X, 1 * TILESHEET_Y, width + x_offset, height }, 12, 5);
 	gc->addAnimation(JUMP, SDL_Rect { 1  * TILESHEET_X, 0 * TILESHEET_Y, width + x_offset, height }, 2, 10);
     gc->addAnimation(IDLE, SDL_Rect { 0 * TILESHEET_X, 0 * TILESHEET_Y, width + x_offset, height }, 1, 10);
-    //gc->addAnimation(HURT, SDL_Rect { 1 * TILESHEET_X, 0 * TILESHEET_Y, width, height }, 2, 10);
-    //gc->addAnimation(ATTACK, SDL_Rect { 0 * TILESHEET_X, 0 * TILESHEET_Y, width + x_offset, height }, 6, 3);
+    gc->addAnimation(WALL_GRAB, SDL_Rect { 2 * TILESHEET_X, 0 * TILESHEET_Y, width + x_offset, height }, 1, 3);
 }
 
 void Sushi::init() {
@@ -58,8 +57,6 @@ void Sushi::init() {
 }
 
 void Sushi::update() {
-	updateComponents();
-
     int animation = 0;
 
 	if (ic->moving_forward && !ic->attack) {
@@ -77,6 +74,7 @@ void Sushi::update() {
         animation = IDLE;
        
 	}
+
     if (ic->fire) {
         ic->fire = false;
         Game::manager->addEntity(new Projectile(xpos, ypos, tag, PROJECTILE_SPEED - 2 * PROJECTILE_SPEED * (flip == SDL_FLIP_HORIZONTAL)));
@@ -88,6 +86,12 @@ void Sushi::update() {
         sword = nullptr;
     }
 
+    if (!cc->bottomCollision && !is_grabbing_wall && cc->leftCollision && ic->moving_backward || cc->rightCollision && ic->moving_forward) {
+        animation = WALL_GRAB;   
+        jc->isJumping = false;
+        is_grabbing_wall = true;
+    }
+
 	if (ic->jumping && !ic->attack) {
         if (!jc->isJumping) {
 		    jc->jump();
@@ -97,19 +101,23 @@ void Sushi::update() {
     if(jc->isJumping) {
         animation = JUMP;
     }
-    
+
     if (hc->isHurt) {
         animation = HURT;
     }
 
-    if (ic->attack) {
-        if (sword == nullptr) {
-            Game::manager->addEntity(sword = new Sword(xpos + x_offset + width / 2, ypos + y_offset + 10, tag, 36, 20));
-        }
-       animation = ATTACK;
-    } 
+//    if (ic->attack) {
+//        if (sword == nullptr) {
+//            Game::manager->addEntity(sword = new Sword(xpos + x_offset + width / 2, ypos + y_offset + 10, tag, 36, 20));
+//        }
+//       animation = ATTACK;
+//    } 
+    if (cc->bottomCollision && is_grabbing_wall) {
+        is_grabbing_wall = false;
+    }
 
     gc->setAnimation(animation, flip);
+    updateComponents();
 }
 
 void Sushi::draw() {
@@ -117,9 +125,8 @@ void Sushi::draw() {
 }
 
 Sushi::~Sushi() {
-    for (Component* c : components) {
-        delete c;
-    }
+    for (Component* c : components) { delete c; }
 	components.clear();
+    delete sword;
 }
 
