@@ -1,7 +1,7 @@
 PROG = nirvana
 CC = ccache g++
 CPPFLAGS = -w -lSDL2 -lSDL2_image -lSDL2_gfx -Wall
-OBJS = main.o collider-component.o input-component.o ecs.o graphics-component.o  physics-component.o jumping-component.o light-component.o tile.o entity-manager.o collision.o map.o sushi.o texture-manager.o defs.hpp components.hpp animation.hpp game.o light.cpp light.hpp camera-component.hpp projectile.o camera.o enemy.o health-component.o quadtree.o sword.o flying-component.o bird.o
+OBJS = main.o collider-component.o input-component.o ecs.o graphics-component.o  physics-component.o jumping-component.o light-component.o tile.o entity-manager.o collision.o map.o sushi.o texture-manager.o defs.hpp components.hpp animation.hpp game.o light.cpp light.hpp camera-component.hpp projectile.o camera.o enemy.o health-component.o quadtree.o sword.o flying-component.o bird.o grab-component.o
 
 $(PROG) : $(OBJS)
 	$(CC) $(CPPFLAGS) -o $(PROG) $(OBJS)
@@ -51,3 +51,5 @@ flying-component.o : flying-component.cpp flying-component.hpp
 	$(CC) $(CPPFLAGS) -c flying-component.cpp
 bird.o : bird.cpp bird.hpp
 	$(CC) $(CPPFLAGS) -c bird.cpp
+grab-component.o : grab-component.cpp grab-component.hpp
+	$(CC) $(CPPFLAGS) -c grab-component.cpp

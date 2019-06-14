@@ -5,34 +5,37 @@
 #include <fstream>
 
 
-std::vector<std::vector<Tile*>> Map::map;
+std::vector<Tile*> Map::map;
 
 void Map::loadMap(const char* map_file) {
 	std::fstream fmap(map_file);
     int a;
     Tile* t;
         for (int x = 0; x < MAP_SIZE; x++) {
-            std::vector<Tile*> tmp;
             for (int y = 0; y < MAP_SIZE; y++) {
                 fmap >> a;
                 if (a == 1) {
-                    t = new Tile( 11 * TILESHEET_SIZE, 1 * TILESHEET_SIZE, y * TILESHEET_SIZE * SCALING, x * TILESHEET_SIZE * SCALING);
-                    tmp.push_back(t);
+                    t = new Tile( 12 * TILESHEET_SIZE, 1 * TILESHEET_SIZE, y * TILESHEET_SIZE * SCALING, x * TILESHEET_SIZE * SCALING);
+                    Map::map.push_back(t);
                     Game::manager->addEntity(t);
 		}
                 else {
-                    tmp.push_back(nullptr);
                 }
             }
-            map.push_back(tmp);
         }
 	fmap.close();
 }
 
-Map::~Map() {
-    for (std::vector<Tile*> a : map) {
-        for (Tile* t : a) {
-            delete t;
-        }
+void Map::generateMap() {
+
+}
+
+void Map::clearMap() {
+    for (Tile* t: Map::map) {
+        t->mark_remove = true;
     }
+}
+
+Map::~Map() {
+    clearMap();
 }

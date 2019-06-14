@@ -6,7 +6,9 @@
 class Map {
 	public:
 		static void loadMap(const char*);
-        static std::vector<std::vector<Tile*>> map;
+        static void generateMap();
+        static void clearMap();
+        static std::vector<Tile*> map;
         ~Map();
 };
 

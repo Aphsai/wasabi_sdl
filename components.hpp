@@ -8,4 +8,4 @@
 #include "light-component.hpp"
 #include "camera-component.hpp"
 #include "health-component.hpp"
-
+#include "grab-component.hpp"

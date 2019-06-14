@@ -12,6 +12,7 @@
 #include "health-component.hpp"
 #include "input-component.hpp"
 #include "collider-component.hpp"
+#include "grab-component.hpp"
 
 Sushi::Sushi(int x, int y) {
 	n_xpos = xpos = x;
@@ -32,7 +33,7 @@ Sushi::Sushi(int x, int y) {
 }
 
 void Sushi::addAnimations() {
-	gc->addAnimation(WALK, SDL_Rect { 0 * TILESHEET_X, 1 * TILESHEET_Y, width + x_offset, height }, 12, 5);
+	gc->addAnimation(WALK, SDL_Rect { 0 * TILESHEET_X, 1 * TILESHEET_Y, width + x_offset, height }, 12, 2);
 	gc->addAnimation(JUMP, SDL_Rect { 1  * TILESHEET_X, 0 * TILESHEET_Y, width + x_offset, height }, 2, 10);
     gc->addAnimation(IDLE, SDL_Rect { 0 * TILESHEET_X, 0 * TILESHEET_Y, width + x_offset, height }, 1, 10);
     gc->addAnimation(WALL_GRAB, SDL_Rect { 2 * TILESHEET_X, 0 * TILESHEET_Y, width + x_offset, height }, 1, 3);
@@ -45,6 +46,7 @@ void Sushi::init() {
 	addComponent<ColliderComponent>(COLLIDER_COMPONENT, PLAYER, x_offset, y_offset);
 	addComponent<JumpingComponent>(JUMPING_COMPONENT, jump_height); addComponent<CameraComponent>(CAMERA_COMPONENT);
     addComponent<HealthComponent>(HEALTH_COMPONENT, 100, 30);
+    addComponent<GrabComponent>(GRAB_COMPONENT);
 
 	initComponents();
 
@@ -54,6 +56,7 @@ void Sushi::init() {
     cc = &getComponent<ColliderComponent>(COLLIDER_COMPONENT);
     hc = &getComponent<HealthComponent>(HEALTH_COMPONENT);
     ic = &getComponent<InputComponent>(INPUT_COMPONENT);
+    ggc = &getComponent<GrabComponent>(GRAB_COMPONENT);
 }
 
 void Sushi::update() {
@@ -72,25 +75,18 @@ void Sushi::update() {
 	else {
 	    pc->xvel = 0;
         animation = IDLE;
-       
 	}
 
-    if (ic->fire) {
-        ic->fire = false;
-        Game::manager->addEntity(new Projectile(xpos, ypos, tag, PROJECTILE_SPEED - 2 * PROJECTILE_SPEED * (flip == SDL_FLIP_HORIZONTAL)));
-    } 
+    //if (ic->fire) {
+    //    ic->fire = false;
+    //    Game::manager->addEntity(new Projectile(xpos, ypos, tag, PROJECTILE_SPEED - 2 * PROJECTILE_SPEED * (flip == SDL_FLIP_HORIZONTAL)));
+    //} 
 
-    if (gc->animationIndex == ATTACK && gc->animation_complete) {
-        ic->attack = false;
-        sword->mark_remove = true;
-        sword = nullptr;
-    }
-
-    if (!cc->bottomCollision && !is_grabbing_wall && cc->leftCollision && ic->moving_backward || cc->rightCollision && ic->moving_forward) {
-        animation = WALL_GRAB;   
-        jc->isJumping = false;
-        is_grabbing_wall = true;
-    }
+    //if (gc->animationIndex == ATTACK && gc->animation_complete) {
+    //    ic->attack = false;
+    //    sword->mark_remove = true;
+    //    sword = nullptr;
+    //}
 
 	if (ic->jumping && !ic->attack) {
         if (!jc->isJumping) {
@@ -112,9 +108,6 @@ void Sushi::update() {
 //        }
 //       animation = ATTACK;
 //    } 
-    if (cc->bottomCollision && is_grabbing_wall) {
-        is_grabbing_wall = false;
-    }
 
     gc->setAnimation(animation, flip);
     updateComponents();

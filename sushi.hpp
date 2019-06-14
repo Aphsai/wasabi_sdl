@@ -7,6 +7,7 @@ class JumpingComponent;
 class ColliderComponent;
 class HealthComponent;
 class InputComponent;
+class GrabComponent;
 class Sword;
 
 class Sushi : public Entity {
@@ -27,6 +28,7 @@ class Sushi : public Entity {
         ColliderComponent* cc;
         HealthComponent* hc;
         InputComponent* ic;
+        GrabComponent* ggc;
         Sword* sword;
 
         SDL_RendererFlip flip;
